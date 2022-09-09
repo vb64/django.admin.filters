@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from django.contrib import admin
 
-from . import HOUR_SECONDS, DAY_SECONDS
+from . import DAY_SECONDS
 
 KEY_SELECTED = 'selected'
 KEY_QUERY = 'query_string'
