@@ -2,8 +2,7 @@
 from datetime import datetime, timedelta
 from django.contrib import admin
 
-HOUR_SECONDS = 60 * 60
-DAY_SECONDS = HOUR_SECONDS * 24
+from . import HOUR_SECONDS, DAY_SECONDS
 
 KEY_SELECTED = 'selected'
 KEY_QUERY = 'query_string'
