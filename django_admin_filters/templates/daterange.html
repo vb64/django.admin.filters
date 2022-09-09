@@ -1,0 +1,38 @@
+{% include "./daterange_base.html" %}
+
+<script type="text/javascript">
+
+function setCustom() {
+  var urlParams = new URLSearchParams(window.location.search);
+  urlParams.set("{{ title.parameter_name }}", "{{ title.option_custom }}");
+  urlParams.set("{{ title.parameter_start }}", document.getElementById("id_{{ title.parameter_start }}").value);
+  urlParams.set("{{ title.parameter_end }}", document.getElementById("id_{{ title.parameter_end }}").value);
+  window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
+}
+</script>
+
+<table>
+<tbody>
+
+<tr>
+<td></td>
+<td>{{ title.date_format }}</td>
+</tr>
+
+<tr>
+<td>{{ title.start_label }}</td>
+<td><input type="text" id="id_{{ title.parameter_start }}" value="{{ title.start_val }}"/></td>
+</tr>
+
+<tr>
+<td>{{ title.end_label }}</td>
+<td><input type="text" id="id_{{ title.parameter_end }}" value="{{ title.end_val }}"/></td>
+</tr>
+
+<tr>
+<td></td>
+<td><input type="submit" value="{{ title.set_custom }}" onclick="setCustom();" /></td>
+</tr>
+
+</tbody>
+</table>
