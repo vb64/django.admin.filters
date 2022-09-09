@@ -1,0 +1,7 @@
+flake8
+pylint
+pylint-django
+pep257
+pytest
+codacy-coverage
+pytest-cov
