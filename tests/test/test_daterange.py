@@ -2,7 +2,7 @@
 
 make test T=test_daterange.py
 """
-# from datetime import datetime
+from datetime import datetime
 from django.urls import reverse
 from django.contrib.admin import site
 from django.test import RequestFactory
@@ -33,10 +33,18 @@ class TestsDaterange(TestBase):
         from django.contrib.auth import get_user_model
 
         self.admin = get_user_model().objects.create_superuser(
-          username='admin',
+          username='superuser',
           email='mail@example.com',
           password='password'
         )
+
+    @staticmethod
+    def test_to_dtime():
+        """Method to_dtime."""
+        from django_admin_filters.daterange import DateRange
+
+        assert DateRange.to_dtime('xxx') is None
+        assert DateRange.to_dtime('2022-09-01 00:00') == datetime(2022, 9, 1)
 
     def admin_get(self, params):
         """Get request from admin."""
@@ -52,4 +60,10 @@ class TestsDaterange(TestBase):
         request = self.admin_get({})
         modeladmin = admin.Admin(Log, site)
         changelist = modeladmin.get_changelist_instance(request)
-        assert changelist
+
+        flt = changelist.get_filters(request)[0][0]
+
+        flt.is_null_option = True
+        assert len(list(flt.choices(changelist))) == 5
+        flt.is_null_option = False
+        assert len(list(flt.choices(changelist))) == 4
