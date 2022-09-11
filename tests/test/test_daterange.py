@@ -22,6 +22,7 @@ class TestsDaterange(TestBase):
         super().setUp()
         from django_admin_filters import DateRange
         from example.models import Log
+        from example.admin import Admin
 
         self.log = Log(text="text1")
         self.log.save()
@@ -29,6 +30,8 @@ class TestsDaterange(TestBase):
         self.field_path = 'timestamp1'
         self.pname = DateRange.parameter_name_mask + self.field_path
         self.queryset = Log.objects.all()
+
+        self.modeladmin = Admin(Log, site)
 
         from django.contrib.auth import get_user_model
 
@@ -54,12 +57,8 @@ class TestsDaterange(TestBase):
 
     def test_is_null_option(self):
         """Filter with is_null_option option."""
-        from example import admin
-        from example.models import Log
-
         request = self.admin_get({})
-        modeladmin = admin.Admin(Log, site)
-        changelist = modeladmin.get_changelist_instance(request)
+        changelist = self.modeladmin.get_changelist_instance(request)
 
         flt = changelist.get_filters(request)[0][0]
 
@@ -71,12 +70,67 @@ class TestsDaterange(TestBase):
     def test_queryset_null(self):
         """Filter queryset null option."""
         from django_admin_filters import DateRange
-        from example.models import Log
-        from example.admin import Admin
 
         request = self.admin_get({self.pname: DateRange.option_null})
-        modeladmin = Admin(Log, site)
-        changelist = modeladmin.get_changelist_instance(request)
+        changelist = self.modeladmin.get_changelist_instance(request)
         flt_null = changelist.get_filters(request)[0][0]
         flt_null.is_null_option = True
         assert flt_null.queryset(request, self.queryset)
+
+    def test_queryset_option(self):
+        """Filter queryset shortcut option."""
+        from example import admin
+
+        admin.DateRange.options = (
+          ('1h', "1 hour", 60 * 60),
+        )
+        request = self.admin_get({self.pname: '1h'})
+
+        changelist = self.modeladmin.get_changelist_instance(request)
+        flt_future = changelist.get_filters(request)[0][0]
+        assert not flt_future.queryset(request, self.queryset)
+
+        admin.DateRange.options = (
+          ('1h', "-1 hour", -60 * 60),
+        )
+        changelist = self.modeladmin.get_changelist_instance(request)
+        flt_past = changelist.get_filters(request)[0][0]
+        assert not flt_past.queryset(request, self.queryset)
+
+    def test_queryset_custom(self):
+        """Filter queryset custom option."""
+        from example import admin
+
+        request = self.admin_get({
+          self.pname: admin.DateRange.option_custom,
+          admin.DateRange.parameter_start_mask + self.field_path: '2022-01-01 00:00',
+          admin.DateRange.parameter_end_mask + self.field_path: '2022-01-02 00:00',
+        })
+
+        changelist = self.modeladmin.get_changelist_instance(request)
+
+        flt_custom = changelist.get_filters(request)[0][0]
+        assert not flt_custom.queryset(request, self.queryset)
+
+    def test_queryset_custom_wrong(self):
+        """Filter queryset wrong custom option."""
+        from example import admin
+
+        request = self.admin_get({
+          admin.DateRange.parameter_start_mask + self.field_path: 'xxx',
+          admin.DateRange.parameter_end_mask + self.field_path: 'xxx',
+          self.pname: admin.DateRange.option_custom,
+        })
+
+        changelist = self.modeladmin.get_changelist_instance(request)
+        flt = changelist.get_filters(request)[0][0]
+        assert flt.queryset(request, self.queryset)
+
+    def test_queryset_custom_empty(self):
+        """Filter queryset empty custom option."""
+        from example import admin
+
+        request = self.admin_get({self.pname: admin.DateRange.option_custom})
+        changelist = self.modeladmin.get_changelist_instance(request)
+        flt = changelist.get_filters(request)[0][0]
+        assert flt.queryset(request, self.queryset)
