@@ -1,4 +1,3 @@
 """Embedded filters for Django Admin site."""
-
-HOUR_SECONDS = 60 * 60
-DAY_SECONDS = HOUR_SECONDS * 24
+from .daterange import DateRange  # noqa: F401
+from .daterange_picker import DateRangePicker  # noqa: F401

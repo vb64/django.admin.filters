@@ -20,7 +20,7 @@ class TestsDaterange(TestBase):
     def setUp(self):
         """Set up Daterange filter tests."""
         super().setUp()
-        from django_admin_filters.daterange import DateRange
+        from django_admin_filters import DateRange
         from example.models import Log
 
         self.log = Log(text="text1")
@@ -41,7 +41,7 @@ class TestsDaterange(TestBase):
     @staticmethod
     def test_to_dtime():
         """Method to_dtime."""
-        from django_admin_filters.daterange import DateRange
+        from django_admin_filters import DateRange
 
         assert DateRange.to_dtime('xxx') is None
         assert DateRange.to_dtime('2022-09-01 00:00') == datetime(2022, 9, 1)
