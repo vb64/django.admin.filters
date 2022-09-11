@@ -67,3 +67,16 @@ class TestsDaterange(TestBase):
         assert len(list(flt.choices(changelist))) == 5
         flt.is_null_option = False
         assert len(list(flt.choices(changelist))) == 4
+
+    def test_queryset_null(self):
+        """Filter queryset null option."""
+        from django_admin_filters import DateRange
+        from example.models import Log
+        from example.admin import Admin
+
+        request = self.admin_get({self.pname: DateRange.option_null})
+        modeladmin = Admin(Log, site)
+        changelist = modeladmin.get_changelist_instance(request)
+        flt_null = changelist.get_filters(request)[0][0]
+        flt_null.is_null_option = True
+        assert flt_null.queryset(request, self.queryset)
