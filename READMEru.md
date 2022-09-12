@@ -5,11 +5,11 @@
 -   `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
 -   `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
 
-  Фильтр DateRange     |  Фильтр с js виджетом
+  Фильтр DateRange     |  Фильтр DateRangePicker
 :-------------------------:|:-------------------------:
 ![фильтр с полем input](img/daterange_ru.png) | ![фильтр с js виджетом](img/picker_ru.png)
 
-Для javascript виджета используется код [проекта date-and-time-picker](https://github.com/polozin/date-and-time-picker) с [внедренным кодом](https://github.com/polozin/date-and-time-picker/pull/4/files), позволяющем выбирать в этом виджете даты ранее текущей.
+Для javascript виджета используется код [проекта date-and-time-picker](https://github.com/polozin/date-and-time-picker) с внедренным [кодом](https://github.com/polozin/date-and-time-picker/pull/4/files), позволяющем выбирать в этом виджете даты ранее текущей.
 
 ## Установка
 
