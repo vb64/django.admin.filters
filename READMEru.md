@@ -1,21 +1,23 @@
-# Библиотека DjangoAdminDaterangeFilter
+# Библиотека DjangoAdminFilters
 
-Бесплатная, с открытым исходным кодом библиотека DjangoAdminDaterangeFilter позволяет задавать пользовательский интервал дат для фильтров в таблицах админки Django.
+Бесплатная, с открытым исходным кодом библиотека DjangoAdminFilters позволяет использовать несколько дополнительных фильтров в таблицах админки Django.
 
-  Фильтр с полем input     |  Фильтр с js виджетом
+-   `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
+-   `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
+
+  Фильтр DateRange     |  Фильтр с js виджетом
 :-------------------------:|:-------------------------:
 ![фильтр с полем input](img/daterange_ru.png) | ![фильтр с js виджетом](img/picker_ru.png)
 
-Для javascript виджета выбора даты/времени из календаря используется код [проекта date-and-time-picker](https://github.com/polozin/date-and-time-picker) с [внедренным кодом](https://github.com/polozin/date-and-time-picker/pull/4/files), позволяющем выбирать в этом виджете даты ранее текущей.
-
+Для javascript виджета используется код [проекта date-and-time-picker](https://github.com/polozin/date-and-time-picker) с [внедренным кодом](https://github.com/polozin/date-and-time-picker/pull/4/files), позволяющем выбирать в этом виджете даты ранее текущей.
 
 ## Установка
 
 ```bash
-pip install django-admin-filter-daterange
+pip install django-admin-filters
 ```
 
-Для подключения DjangoAdminDaterangeFilter к вашему проекту в файле `settings.py` нужно добавить `'django_admin_filter_daterange'` в список `INSTALLED_APPS`.
+Для подключения библиотеки к проекту нужно добавить `django_admin_filters` в список `INSTALLED_APPS` в файле `settings.py`.
 
 ```python
 
@@ -23,11 +25,11 @@ INSTALLED_APPS = (
 
 ...
 
-  'django_admin_filter_daterange',
+  'django_admin_filters',
 )
 ```
 
-Если вы планируете использовать javascript виджет для выбора даты/времени из календаря, также необходимо подключить статические файлы библиотеки.
+После этого подключить статические файлы библиотеки.
 
 ```bash
 manage.py collectstatic
@@ -46,12 +48,12 @@ manage.py collectstatic
 Затем склонировать репозитарий и запустить установку, указав путь на Python 3.
 
 ```bash
-git clone git@github.com:vb64/django.admin.filter.daterange
-cd django.admin.filter.daterange
+git clone git@github.com:vb64/django.admin.filters
+cd django.admin.filters
 make setup PYTHON_BIN=/usr/bin/python3
 ```
 
-Собрать файлы медиа и создать базу данных.
+Подключить статические файлы библиотеки и создать базу данных.
 
 ```bash
 make static
@@ -70,5 +72,5 @@ make superuser
 make example
 ```
 
-Открыть в браузере адрес `http://127.0.0.1:8000/` для просмотра сайта примера.
-Для входа в админку `http://127.0.0.1:8000/admin/` нужно использовать логин и пароль, заданные при создании суперюзера.
+Открыть в браузере адрес `http://127.0.0.1:8000/admin/` для просмотра сайта примера.
+Для входа в админку нужно использовать логин и пароль, заданные при создании суперюзера.

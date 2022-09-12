@@ -1,8 +1,6 @@
 """Admin site."""
 from django.contrib import admin
-
-from django_admin_filters.daterange import DateRange
-from django_admin_filters.daterange_picker import DateRangePicker
+from django_admin_filters import DateRange, DateRangePicker
 from .models import Log
 
 class Admin(admin.ModelAdmin):
