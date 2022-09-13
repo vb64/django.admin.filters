@@ -14,7 +14,7 @@
 ## Установка
 
 ```bash
-pip install django-admin-filters
+pip install django-admin-list-filters
 ```
 
 Для подключения библиотеки к проекту нужно добавить `django_admin_filters` в список `INSTALLED_APPS` в файле `settings.py`.

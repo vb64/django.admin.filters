@@ -20,7 +20,7 @@ For javascript widget used code from [date-and-time-picker project](https://gith
 ## Installation
 
 ```bash
-pip install django-admin-filters
+pip install django-admin-list-filters
 ```
 
 To connect library to your project, add `django_admin_filters` to the `INSTALLED_APPS` list  in your `settings.py` file.
