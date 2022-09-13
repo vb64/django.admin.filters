@@ -139,27 +139,27 @@ class DateRange(admin.FieldListFilter):
     def choices(self, changelist):
         """Define filter shortcuts."""
         yield {
-            KEY_SELECTED: self.value() is None,
-            KEY_QUERY: changelist.get_query_string(remove=[self.parameter_name]),
-            KEY_DISPLAY: self.ALL_LABEL,
+          KEY_SELECTED: self.value() is None,
+          KEY_QUERY: changelist.get_query_string(remove=[self.parameter_name]),
+          KEY_DISPLAY: self.ALL_LABEL,
         }
 
         for lookup, title in self.lookup_choices:
             yield {
-                KEY_SELECTED: self.value() == str(lookup),
-                KEY_QUERY: changelist.get_query_string({self.parameter_name: lookup}),
-                KEY_DISPLAY: title,
+              KEY_SELECTED: self.value() == str(lookup),
+              KEY_QUERY: changelist.get_query_string({self.parameter_name: lookup}),
+              KEY_DISPLAY: title,
             }
 
         if self.is_null_option:
             yield {
-                KEY_SELECTED: self.value() == self.option_null,
-                KEY_QUERY: changelist.get_query_string({self.parameter_name: self.option_null}),
-                KEY_DISPLAY: self.NULL_LABEL,
+              KEY_SELECTED: self.value() == self.option_null,
+              KEY_QUERY: changelist.get_query_string({self.parameter_name: self.option_null}),
+              KEY_DISPLAY: self.NULL_LABEL,
             }
 
         yield {
-            KEY_SELECTED: self.value() == self.option_custom,
-            KEY_QUERY: changelist.get_query_string({self.parameter_name: self.option_custom}),
-            KEY_DISPLAY: self.CUSTOM_LABEL,
+          KEY_SELECTED: self.value() == self.option_custom,
+          KEY_QUERY: changelist.get_query_string({self.parameter_name: self.option_custom}),
+          KEY_DISPLAY: self.CUSTOM_LABEL,
         }
