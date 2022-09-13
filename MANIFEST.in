@@ -1,0 +1,2 @@
+recursive-include django_admin_filters/templates *
+recursive-include django_admin_filters/static *
