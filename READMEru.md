@@ -127,6 +127,9 @@ def to_dtime(text):
 Кроме того, в `DateRangePicker` можно переопределить дополнительные атрибуты.
 
 ```python
+# admin.py
+from django_admin_filters import DateRangePicker
+
 class MyDateRangePicker(DateRangePicker):
     WIDGET_LOCALE = 'ru'
     WIDGET_BUTTON_LABEL = "Выбрать"

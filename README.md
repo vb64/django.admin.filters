@@ -133,6 +133,9 @@ The `DateRangePicker` filter with a javascript calendar date/time picker widget 
 Also, additional attributes can be overridden in `DateRangePicker`.
 
 ```python
+# admin.py
+from django_admin_filters import DateRangePicker
+
 class MyDateRangePicker(DateRangePicker):
     WIDGET_LOCALE = 'en'
     WIDGET_BUTTON_LABEL = "Set"
