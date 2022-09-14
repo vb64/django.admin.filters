@@ -1,3 +1,19 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}">
+<script src="/admin/jsi18n/"></script>
+<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+<script src="{% static 'admin/js/calendar.js' %}"></script>
+<script src="{% static 'admin/js/jquery.init.js' %}"></script>
+<script src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+<script src="{% static 'admin/js/core.js' %}"></script>
+<script src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+<script src="{% static 'admin/js/actions.js' %}"></script>
+<script src="{% static 'admin/js/urlify.js' %}"></script>
+<script src="{% static 'admin/js/prepopulate.js' %}"></script>
+<script src="{% static 'admin/js/vendor/xregexp/xregexp.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/responsive.css' %}">
+
 {% include "./daterange_base.html" %}
 
 <script type="text/javascript">
@@ -21,7 +37,15 @@ function setCustom() {
 
 <tr>
 <td>{{ title.start_label }}</td>
-<td><input type="text" id="id_{{ title.parameter_start }}" value="{{ title.start_val }}"/></td>
+<td>
+
+<div class="form-row field-date_start">
+<p class="datetime">
+<input type="text" class="vDateField" size="10" id="id_{{ title.parameter_start }}" value="{{ title.start_val }}"/>
+</p>
+</div>
+
+</td>
 </tr>
 
 <tr>
