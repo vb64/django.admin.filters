@@ -6,8 +6,12 @@ from .models import Log
 class Admin(admin.ModelAdmin):
     """Admin site customization."""
 
-    list_display = ['text', 'timestamp1', 'timestamp2']
-    list_filter = (('timestamp1', DateRange), ('timestamp2', DateRangePicker))
+    list_display = ['text', 'status', 'timestamp1', 'timestamp2']
+    list_filter = (
+      ('status', admin.filters.ChoicesFieldListFilter),
+      ('timestamp1', DateRange),
+      ('timestamp2', DateRangePicker)
+    )
 
 
 admin.site.register(Log, Admin)
