@@ -60,7 +60,7 @@ class TestsDaterange(TestBase):
         request = self.admin_get({})
         changelist = self.modeladmin.get_changelist_instance(request)
 
-        flt = changelist.get_filters(request)[0][0]
+        flt = changelist.get_filters(request)[0][1]
 
         flt.is_null_option = True
         assert len(list(flt.choices(changelist))) == 5
@@ -87,14 +87,14 @@ class TestsDaterange(TestBase):
         request = self.admin_get({self.pname: '1h'})
 
         changelist = self.modeladmin.get_changelist_instance(request)
-        flt_future = changelist.get_filters(request)[0][0]
+        flt_future = changelist.get_filters(request)[0][1]
         assert not flt_future.queryset(request, self.queryset)
 
         admin.DateRange.options = (
           ('1h', "-1 hour", -60 * 60),
         )
         changelist = self.modeladmin.get_changelist_instance(request)
-        flt_past = changelist.get_filters(request)[0][0]
+        flt_past = changelist.get_filters(request)[0][1]
         assert not flt_past.queryset(request, self.queryset)
 
     def test_queryset_custom(self):
@@ -109,7 +109,7 @@ class TestsDaterange(TestBase):
 
         changelist = self.modeladmin.get_changelist_instance(request)
 
-        flt_custom = changelist.get_filters(request)[0][0]
+        flt_custom = changelist.get_filters(request)[0][1]
         assert not flt_custom.queryset(request, self.queryset)
 
     def test_queryset_custom_wrong(self):
