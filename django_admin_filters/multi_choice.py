@@ -18,3 +18,18 @@ class MultiChoice(admin.filters.ChoicesFieldListFilter):
     """
 
     template = 'multi_choice.html'
+    parameter_name_mask = 'choice_'
+
+    FILTER_LABEL = "Your choice"
+    BUTTON_LABEL = "Apply"
+
+    def __init__(self, field, request, params, model, model_admin, field_path):
+        """Customize FieldListFilter functionality."""
+        self.parameter_name = self.parameter_name_mask + field_path
+        super().__init__(field, request, params, model, model_admin, field_path)
+
+        self.title = {
+          'parameter_name': self.parameter_name,
+          'filter_name': self.FILTER_LABEL,
+          'button_label': self.BUTTON_LABEL,
+        }
