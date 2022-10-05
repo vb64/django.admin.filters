@@ -13,4 +13,8 @@ class MultiChoice(admin.filters.ChoicesFieldListFilter):
     https://github.com/ctxis/django-admin-multiple-choice-list-filter
     https://github.com/modlinltd/django-advanced-filters
     https://stackoverflow.com/questions/38508672/django-admin-filter-multiple-select
+
+    for lookup, title in self.field.flatchoices:
     """
+
+    template = 'multi_choice.html'
