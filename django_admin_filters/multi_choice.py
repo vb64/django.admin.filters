@@ -1,8 +1,9 @@
 """Django admin multi choice filter with checkboxes for db fields with choices option."""
 from django.contrib import admin
+from .mixin import Collapsed
 
 
-class MultiChoice(admin.filters.ChoicesFieldListFilter):
+class MultiChoice(admin.filters.ChoicesFieldListFilter, Collapsed):
     """Multiselect options filter.
 
     https://groups.google.com/g/django-users
@@ -32,4 +33,5 @@ class MultiChoice(admin.filters.ChoicesFieldListFilter):
           'parameter_name': self.parameter_name,
           'filter_name': self.FILTER_LABEL,
           'button_label': self.BUTTON_LABEL,
+          'collapsed': self.collapsed_state,
         }

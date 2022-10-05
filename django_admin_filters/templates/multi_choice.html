@@ -1,5 +1,5 @@
 {% load i18n %}
-<details data-filter-title="{{ title.filter_name }}" open>
+<details data-filter-title="{{ title.filter_name }}" {{ title.collapsed }}>
   <summary>{{ title.filter_name }}</summary>
   <ul>
   {% for choice in choices %}

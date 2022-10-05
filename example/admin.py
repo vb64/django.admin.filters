@@ -8,6 +8,7 @@ class StatusFilter(MultiChoice):
     """Field status filter."""
 
     FILTER_LABEL = "By status"
+    is_collapsed = True
 
 
 class Timestamp1Filter(DateRange):
