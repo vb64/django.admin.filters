@@ -3,8 +3,12 @@
   <summary>{{ title.filter_name }}</summary>
   <ul>
   {% for choice in choices %}
-    <li{% if choice.selected %} class="selected"{% endif %}>
-    <a href="{{ choice.query_string|iriencode }}">{{ choice.display }}</a></li>
+    <li>
+    <input type="checkbox" id="{{ title.parameter_name }}_{{ choice.value }}" name="{{ title.parameter_name }}" value="{{ choice.value }}" {% if choice.selected %}checked{% endif %} />
+    <label for="{{ title.parameter_name }}_{{ choice.value }}">{{ choice.display }}</label>
+    </li>
   {% endfor %}
   </ul>
 </details>
+
+<input type="submit" value="{{ title.button_label }}" onclick="setChoices();" />
