@@ -8,5 +8,22 @@
     </li>
   {% endfor %}
   </ul>
-  <input type="submit" value="{{ title.button_label }}" onclick="setChoices();" />
+  <input type="submit" value="{{ title.button_label }}" id="btn_{{ title.parameter_name }}" />
 </details>
+
+<script type="text/javascript">
+
+document.getElementById("btn_{{ title.parameter_name }}").onclick = function() {  
+  var urlParams = new URLSearchParams(window.location.search);
+  var check_boxes = document.getElementsByName("{{ title.parameter_name }}");
+  var option_selected = [];
+  for (var checkbox of check_boxes) {  
+    if (checkbox.checked) {
+      option_selected.push(checkbox.value);
+    }
+  }
+  urlParams.set("{{ title.parameter_name }}", option_selected.join(','));
+  window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
+}
+
+</script>

@@ -42,3 +42,8 @@ class MultiChoice(admin.FieldListFilter, Collapsed):
               'value': lookup,
               'display': title,
             }
+
+    def queryset(self, request, queryset):
+        """Return the filtered by selected options queryset."""
+        print("##", self.used_parameters)
+        return queryset
