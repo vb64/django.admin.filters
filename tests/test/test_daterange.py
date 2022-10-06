@@ -5,7 +5,6 @@ make test T=test_daterange.py
 from datetime import datetime
 from django.urls import reverse
 from django.contrib.admin import site
-from django.test import RequestFactory
 from . import TestBase
 
 
@@ -14,8 +13,6 @@ class TestsDaterange(TestBase):
 
     https://github.com/django/django/blob/main/tests/admin_filters/tests.py
     """
-
-    request_factory = RequestFactory()
 
     def setUp(self):
         """Set up Daterange filter tests."""
@@ -32,14 +29,6 @@ class TestsDaterange(TestBase):
         self.queryset = Log.objects.all()
 
         self.modeladmin = Admin(Log, site)
-
-        from django.contrib.auth import get_user_model
-
-        self.admin = get_user_model().objects.create_superuser(
-          username='superuser',
-          email='mail@example.com',
-          password='password'
-        )
 
     @staticmethod
     def test_to_dtime():
