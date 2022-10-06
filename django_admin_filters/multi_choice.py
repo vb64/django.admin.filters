@@ -29,6 +29,7 @@ class MultiChoice(admin.FieldListFilter, Collapsed):
           'button_label': self.BUTTON_LABEL,
           'collapsed': self.collapsed_state,
         }
+        print("##", self.used_parameters)
 
     def expected_parameters(self):
         """Parameter list for chice filter."""
@@ -43,7 +44,10 @@ class MultiChoice(admin.FieldListFilter, Collapsed):
               'display': title,
             }
 
+    def value(self):
+        """Return the string provided in the request's query string for choice filter."""
+        return self.used_parameters.get(self.parameter_name)
+
     def queryset(self, request, queryset):
         """Return the filtered by selected options queryset."""
-        print("##", self.used_parameters)
         return queryset
