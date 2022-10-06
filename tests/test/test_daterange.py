@@ -84,7 +84,7 @@ class TestsDaterange(TestBase):
         )
         changelist = self.modeladmin.get_changelist_instance(request)
         flt_past = changelist.get_filters(request)[0][1]
-        assert not flt_past.queryset(request, self.queryset)
+        assert flt_past.queryset(request, self.queryset) is not None
 
     def test_queryset_custom(self):
         """Filter queryset custom option."""

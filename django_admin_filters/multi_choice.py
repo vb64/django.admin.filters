@@ -17,6 +17,7 @@ class MultiChoice(admin.FieldListFilter, Collapsed):
 
     FILTER_LABEL = "By choices"
     BUTTON_LABEL = "Apply"
+    CHOICES_SEPARATOR = ','
 
     def __init__(self, field, request, params, model, model_admin, field_path):
         """Customize FieldListFilter functionality."""
@@ -28,8 +29,10 @@ class MultiChoice(admin.FieldListFilter, Collapsed):
           'filter_name': self.FILTER_LABEL,
           'button_label': self.BUTTON_LABEL,
           'collapsed': self.collapsed_state,
+          'choices_separator': self.CHOICES_SEPARATOR,
         }
-        print("##", self.used_parameters)
+        val = self.used_parameters.get(self.parameter_name)
+        self.selected = val.split(self.CHOICES_SEPARATOR) if val else []
 
     def expected_parameters(self):
         """Parameter list for chice filter."""
@@ -39,15 +42,17 @@ class MultiChoice(admin.FieldListFilter, Collapsed):
         """Define filter checkboxes."""
         for lookup, title in self.field.flatchoices:
             yield {
-              'selected': False,
+              'selected': lookup in self.selected,
               'value': lookup,
               'display': title,
             }
 
-    def value(self):
-        """Return the string provided in the request's query string for choice filter."""
-        return self.used_parameters.get(self.parameter_name)
-
     def queryset(self, request, queryset):
         """Return the filtered by selected options queryset."""
+        if self.selected:
+            params = {
+              "{}__in".format(self.field_path): self.selected,
+            }
+            return queryset.filter(**params)
+
         return queryset

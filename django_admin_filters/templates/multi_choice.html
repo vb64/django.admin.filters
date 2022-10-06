@@ -22,7 +22,7 @@ document.getElementById("btn_{{ title.parameter_name }}").onclick = function() {
       option_selected.push(checkbox.value);
     }
   }
-  urlParams.set("{{ title.parameter_name }}", option_selected.join(','));
+  urlParams.set("{{ title.parameter_name }}", option_selected.join("{{ title.choices_separator }}"));
   window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
 }
 
