@@ -3,25 +3,19 @@ from django.contrib import admin
 from .mixin import Collapsed
 
 
-class MultiChoice(admin.filters.ChoicesFieldListFilter, Collapsed):
+class MultiChoice(admin.FieldListFilter, Collapsed):
     """Multiselect options filter.
 
-    https://groups.google.com/g/django-users
     https://stackoverflow.com/questions/39790087/is-multi-choice-django-admin-filters-possible
-
-    https://github.com/carltongibson/django-filter
-
+    https://stackoverflow.com/questions/38508672/django-admin-filter-multiple-select
     https://github.com/ctxis/django-admin-multiple-choice-list-filter
     https://github.com/modlinltd/django-advanced-filters
-    https://stackoverflow.com/questions/38508672/django-admin-filter-multiple-select
-
-    for lookup, title in self.field.flatchoices:
     """
 
     template = 'multi_choice.html'
     parameter_name_mask = 'choice_'
 
-    FILTER_LABEL = "Your choice"
+    FILTER_LABEL = "By choices"
     BUTTON_LABEL = "Apply"
 
     def __init__(self, field, request, params, model, model_admin, field_path):
@@ -35,3 +29,16 @@ class MultiChoice(admin.filters.ChoicesFieldListFilter, Collapsed):
           'button_label': self.BUTTON_LABEL,
           'collapsed': self.collapsed_state,
         }
+
+    def expected_parameters(self):
+        """Parameter list for chice filter."""
+        return [self.parameter_name]
+
+    def choices(self, changelist):
+        """Define filter checkboxes."""
+        for lookup, title in self.field.flatchoices:
+            yield {
+              'selected': False,
+              'value': lookup,
+              'display': title,
+            }
