@@ -1,6 +1,7 @@
-"""Django admin daterange filter with simple inputs and shortcuts."""
+"""Django admin daterange filters with shortcuts."""
 from datetime import datetime, timedelta
-from django.contrib import admin
+from django.conf import settings
+from .base import Filter as BaseFilter
 
 HOUR_SECONDS = 60 * 60
 DAY_SECONDS = HOUR_SECONDS * 24
@@ -10,16 +11,17 @@ KEY_QUERY = 'query_string'
 KEY_DISPLAY = 'display'
 
 
-class DateRange(admin.FieldListFilter):
+class Filter(BaseFilter):
     """Date range filter with input fields."""
 
     FILTER_LABEL = "Data range"
+    BUTTON_LABEL = "Set range"
+
     FROM_LABEL = "From"
     TO_LABEL = "To"
     ALL_LABEL = 'All'
     CUSTOM_LABEL = "custom range"
     NULL_LABEL = "no date"
-    BUTTON_LABEL = "Set range"
     DATE_FORMAT = "YYYY-MM-DD HH:mm"
     INITIAL_START = ''
     INITIAL_END = ''
@@ -42,29 +44,23 @@ class DateRange(admin.FieldListFilter):
     option_null = 'empty'
 
     def __init__(self, field, request, params, model, model_admin, field_path):
-        """Unite FieldListFilter and SimpleListFilter functionality."""
-        self.parameter_name = self.parameter_name_mask + field_path
+        """Customize BaseFilter functionality."""
         self.parameter_start = self.parameter_start_mask + field_path
         self.parameter_end = self.parameter_end_mask + field_path
-
         super().__init__(field, request, params, model, model_admin, field_path)
 
         self.lookup_choices = list(self.lookups(request, model_admin))
         self.interval = {i[0]: i[2] for i in self.options}
-
-        self.title = {
-          'parameter_name': self.parameter_name,
+        self.title.update({
           'parameter_start': self.parameter_start,
           'parameter_end': self.parameter_end,
           'option_custom': self.option_custom,
-          'filter_name': self.FILTER_LABEL,
           'start_label': self.FROM_LABEL,
           'end_label': self.TO_LABEL,
-          'set_custom': self.BUTTON_LABEL,
           'date_format': self.DATE_FORMAT,
           'start_val': request.GET.get(self.parameter_start, self.INITIAL_START),
           'end_val': request.GET.get(self.parameter_end, self.INITIAL_END),
-        }
+        })
 
     @staticmethod
     def to_dtime(text):
@@ -129,13 +125,6 @@ class DateRange(admin.FieldListFilter):
 
         return queryset.filter(**params)
 
-    def value(self):
-        """Return the string provided in the request's query string for this filter.
-
-        None if the value wasn't provided.
-        """
-        return self.used_parameters.get(self.parameter_name)
-
     def choices(self, changelist):
         """Define filter shortcuts."""
         yield {
@@ -163,3 +152,39 @@ class DateRange(admin.FieldListFilter):
           KEY_QUERY: changelist.get_query_string({self.parameter_name: self.option_custom}),
           KEY_DISPLAY: self.CUSTOM_LABEL,
         }
+
+
+class FilterPicker(Filter):
+    """Date range filter with js datetime picker widget."""
+
+    template = 'daterange_picker.html'
+
+    INITIAL_START = 'now'
+    INITIAL_END = 'now'
+
+    WIDGET_LOCALE = settings.LANGUAGE_CODE
+    WIDGET_BUTTON_LABEL = "Set"
+    WIDGET_WITH_TIME = True
+
+    WIDGET_START_TITLE = 'Start date'
+    WIDGET_START_TOP = -350
+    WIDGET_START_LEFT = -400 if WIDGET_WITH_TIME else -100
+
+    WIDGET_END_TITLE = 'End date'
+    WIDGET_END_TOP = -350
+    WIDGET_END_LEFT = -400 if WIDGET_WITH_TIME else -100
+
+    def __init__(self, field, request, params, model, model_admin, field_path):
+        """Apply js widget settings."""
+        super().__init__(field, request, params, model, model_admin, field_path)
+        self.title.update({
+          'widget_locale': self.WIDGET_LOCALE,
+          'widget_button_label': self.WIDGET_BUTTON_LABEL,
+          'widget_with_time': 'true' if self.WIDGET_WITH_TIME else 'false',
+          'widget_start_title': self.WIDGET_START_TITLE,
+          'widget_start_top': self.WIDGET_START_TOP,
+          'widget_start_left': self.WIDGET_START_LEFT,
+          'widget_end_title': self.WIDGET_END_TITLE,
+          'widget_end_top': self.WIDGET_END_TOP,
+          'widget_end_left': self.WIDGET_END_LEFT,
+        })
