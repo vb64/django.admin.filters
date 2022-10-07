@@ -73,9 +73,12 @@ from django.contrib import admin
 from django_admin_filters import MultiChoice
 from .models import Log
 
+class StatusFilter(MultiChoice):
+    FILTER_LABEL = "By status"
+
 class Admin(admin.ModelAdmin):
     list_display = ['text', 'status']
-    list_filter = [('status', MultiChoice)]
+    list_filter = [('status', StatusFilter)]
 
 admin.site.register(Log, Admin)
 ```
