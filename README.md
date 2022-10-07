@@ -13,7 +13,7 @@ The library provide few filters for this purpose.
 -   `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
 
 MultiChoice | DateRange | DateRangePicker
-:-------------------------:|:-------------------------:
+:------:|:-----:|:----:
 ![MultiChoice filter](img/multi_choice_en.png) | ![DateRange with input field](img/daterange_en.png) | ![DateRange with js widget](img/picker_en.png)
 
 For javascript widget for DateRangePicker was used code from [date-and-time-picker project](https://github.com/polozin/date-and-time-picker) with merged [pull request](https://github.com/polozin/date-and-time-picker/pull/4/files), that allow to select dates before current.
