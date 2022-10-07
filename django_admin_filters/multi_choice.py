@@ -5,7 +5,7 @@ from .base import Filter as BaseFilter
 class Filter(BaseFilter):
     """Multi choice options filter.
 
-    For CharField fields with 'choices' option.
+    For CharField and IntegerField fields with 'choices' option.
 
     https://stackoverflow.com/questions/39790087/is-multi-choice-django-admin-filters-possible
     https://stackoverflow.com/questions/38508672/django-admin-filter-multiple-select
@@ -28,6 +28,8 @@ class Filter(BaseFilter):
         })
         val = self.value()
         self.selected = val.split(self.CHOICES_SEPARATOR) if val else []
+        if self.field.get_internal_type() in ['IntegerField']:
+            self.selected = [int(i) for i in self.selected]
 
     def choices(self, changelist):
         """Define filter checkboxes."""

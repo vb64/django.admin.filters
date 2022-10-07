@@ -11,6 +11,12 @@ class StatusFilter(MultiChoice):
     is_collapsed = True
 
 
+class NumberFilter(MultiChoice):
+    """Field number filter."""
+
+    FILTER_LABEL = "By number"
+
+
 class Timestamp1Filter(DateRange):
     """Field timestamp1 filter."""
 
@@ -30,7 +36,8 @@ class Admin(admin.ModelAdmin):
     list_filter = (
       ('status', StatusFilter),
       ('timestamp1', Timestamp1Filter),
-      ('timestamp2', Timestamp2Filter)
+      ('timestamp2', Timestamp2Filter),
+      ('number', NumberFilter),
     )
 
 
