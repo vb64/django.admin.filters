@@ -8,9 +8,9 @@
 The free, open-source DjangoAdminFilters library is designed to filter objects in the Django admin site.
 The library provide few filters for this purpose.
 
+-   `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
 -   `DateRange`: set a custom date range using `input` fields
 -   `DateRangePicker`: set a custom date range using javascript widget for select datetime from calendar
--   `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
 
 MultiChoice | DateRange | DateRangePicker
 :------:|:-----:|:----:
@@ -42,19 +42,45 @@ After that, connect the static files of the library.
 manage.py collectstatic
 ```
 
-## Usage
+## Initial data
 
-Let's say we have a table in the database. The records contain datetime fields.
+Let's say we have a table in the database. The records contain follows fields.
 
 ```python
 # models.py
 from django.db import models
 
+STATUS_CHOICES = (
+  ('P', 'Pending'),
+  ('A', 'Approved'),
+  ('R', 'Rejected'),
+)
+
 class Log(models.Model):
     text = models.CharField(max_length=100)
     timestamp1 = models.DateTimeField(default=None, null=True)
     timestamp2 = models.DateTimeField(default=None, null=True)
+    status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
 ```
+
+## MultiChoice filter
+
+To use MultiChoice filter, you need to specify them in the `admin.py` file in the `list_filter` attribute of the corresponding class.
+
+```python
+# admin.py
+from django.contrib import admin
+from django_admin_filters import MultiChoice
+from .models import Log
+
+class Admin(admin.ModelAdmin):
+    list_display = ['text', 'status']
+    list_filter = [('status', MultiChoice)]
+
+admin.site.register(Log, Admin)
+```
+
+## DateRange and DateRangePicker filters
 
 To use filters with a date interval, you need to specify them in the `admin.py` file in the `list_filter` attribute of the corresponding class.
 
@@ -71,7 +97,7 @@ class Admin(admin.ModelAdmin):
 admin.site.register(Log, Admin)
 ```
 
-## Customization
+### Customization for DateRange filter
 
 You can customize the appearance and behavior of filters to suit your needs by inheriting the filter classes from the library and overriding some of the attributes.
 
@@ -129,6 +155,8 @@ Each element of the `options` list contains three values.
 -   A unique string to use in the GET request parameters. Except for the strings 'custom' and 'empty' which are used by the filter.
 -   The title of the item in the filter menu.
 -   Offset in seconds relative to the current moment. A negative value specifies an offset to the past.
+
+### Customization for DateRangePicker filter
 
 The `DateRangePicker` filter with a javascript calendar date/time picker widget is derived from the `DateRange` filter and allows you to override all the attributes described above.
 Also, additional attributes can be overridden in `DateRangePicker`.
