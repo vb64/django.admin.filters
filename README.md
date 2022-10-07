@@ -8,14 +8,15 @@
 The free, open-source DjangoAdminFilters library is designed to filter objects in the Django admin site.
 The library provide few filters for this purpose.
 
--   `DateRange`: allows you to set a custom date range using `input` fields
--   `DateRangePicker`: allows you to set a custom date range using javascript widget for select datetime from calendar
+-   `DateRange`: set a custom date range using `input` fields
+-   `DateRangePicker`: set a custom date range using javascript widget for select datetime from calendar
+-   `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
 
-  DateRange filter    |  DateRangePicker filter
+MultiChoice | DateRange | DateRangePicker
 :-------------------------:|:-------------------------:
-![Filter with input field](img/daterange_en.png) | ![Filter with js widget](img/picker_en.png)
+![MultiChoice filter](img/multi_choice_en.png) | ![DateRange with input field](img/daterange_en.png) | ![DateRange with js widget](img/picker_en.png)
 
-For javascript widget used code from [date-and-time-picker project](https://github.com/polozin/date-and-time-picker) with embedded [code](https://github.com/polozin/date-and-time-picker/pull/4/files), that allow to select dates before current.
+For javascript widget for DateRangePicker was used code from [date-and-time-picker project](https://github.com/polozin/date-and-time-picker) with merged [pull request](https://github.com/polozin/date-and-time-picker/pull/4/files), that allow to select dates before current.
 
 ## Installation
 
