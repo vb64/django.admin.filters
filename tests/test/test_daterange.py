@@ -3,8 +3,6 @@
 make test T=test_daterange.py
 """
 from datetime import datetime
-from django.urls import reverse
-from django.contrib.admin import site
 from . import TestBase
 
 
@@ -19,16 +17,11 @@ class TestsDaterange(TestBase):
         super().setUp()
         from django_admin_filters import DateRange
         from example.models import Log
-        from example.admin import Admin
 
         self.log = Log(text="text1")
         self.log.save()
-        self.url = reverse('admin:example_log_changelist')
         self.field_path = 'timestamp1'
         self.pname = DateRange.parameter_name_mask + self.field_path
-        self.queryset = Log.objects.all()
-
-        self.modeladmin = Admin(Log, site)
 
     @staticmethod
     def test_to_dtime():
@@ -37,12 +30,6 @@ class TestsDaterange(TestBase):
 
         assert DateRange.to_dtime('xxx') is None
         assert DateRange.to_dtime('2022-09-01 00:00') == datetime(2022, 9, 1)
-
-    def admin_get(self, params):
-        """Get request from admin."""
-        request = self.request_factory.get(self.url, params)
-        request.user = self.admin
-        return request
 
     def test_is_null_option(self):
         """Filter with is_null_option option."""
