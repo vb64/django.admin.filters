@@ -1,0 +1,13 @@
+<details data-filter-title="{{ title.filter_name }}" {{ title.collapsed }}>
+  <summary>{{ title.filter_name }}</summary>
+  <ul>
+  {% block choices_list %}
+  {% endblock %}
+  </ul>
+  {% block after_choices %}
+  {% endblock %}
+  <input type="submit" value="{{ title.button_label }}" id="btn_{{ title.parameter_name }}" />
+</details>
+
+{% block javascript_code %}
+{% endblock %}

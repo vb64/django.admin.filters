@@ -1,15 +1,17 @@
-<details data-filter-title="{{ title.filter_name }}" {{ title.collapsed }}>
-  <summary>{{ title.filter_name }}</summary>
-  <ul>
-  {% for choice in choices %}
-    <li>
-    <input type="checkbox" id="{{ title.parameter_name }}_{{ choice.value }}" name="{{ title.parameter_name }}" value="{{ choice.value }}" {% if choice.selected %}checked{% endif %} />
-    <label for="{{ title.parameter_name }}_{{ choice.value }}">{{ choice.display }}</label>
-    </li>
-  {% endfor %}
-  </ul>
-  <input type="submit" value="{{ title.button_label }}" id="btn_{{ title.parameter_name }}" />
-</details>
+{% extends "./base.html" %}
+
+{% block choices_list %}
+
+{% for choice in choices %}
+  <li>
+  <input type="checkbox" id="{{ title.parameter_name }}_{{ choice.value }}" name="{{ title.parameter_name }}" value="{{ choice.value }}" {% if choice.selected %}checked{% endif %} />
+  <label for="{{ title.parameter_name }}_{{ choice.value }}">{{ choice.display }}</label>
+  </li>
+{% endfor %}
+
+{% endblock %}
+
+{% block javascript_code %}
 
 <script type="text/javascript">
 
@@ -27,3 +29,5 @@ document.getElementById("btn_{{ title.parameter_name }}").onclick = function() {
 }
 
 </script>
+
+{% endblock %}
