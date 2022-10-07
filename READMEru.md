@@ -2,14 +2,15 @@
 
 Бесплатная, с открытым исходным кодом библиотека DjangoAdminFilters позволяет использовать несколько дополнительных фильтров в таблицах админки Django.
 
+-   `MultiChoice`: множественный выбор с чекбоксами для полей типа CharField и IntegerField, имеющих опцию 'choices'
 -   `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
 -   `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
 
-  Фильтр DateRange     |  Фильтр DateRangePicker
-:-------------------------:|:-------------------------:
-![фильтр с полем input](img/daterange_ru.png) | ![фильтр с js виджетом](img/picker_ru.png)
+ MultiChoice | DateRange | DateRangePicker
+:------------:|:-------------:|:------------:
+![MultiChoice](img/multi_choice_en.png) | ![DateRange с полем input](img/daterange_ru.png) | ![DateRangePicker с js виджетом](img/picker_ru.png)
 
-Для javascript виджета используется код [проекта date-and-time-picker](https://github.com/polozin/date-and-time-picker) с внедренным [кодом](https://github.com/polozin/date-and-time-picker/pull/4/files), позволяющем выбирать в этом виджете даты ранее текущей.
+Для javascript виджета в фильтре DateRangePicker используется код [проекта date-and-time-picker](https://github.com/polozin/date-and-time-picker) с внедренным [пул-реквестом](https://github.com/polozin/date-and-time-picker/pull/4/files), позволяющем выбирать в этом виджете даты ранее текущей.
 
 ## Установка
 
@@ -35,19 +36,48 @@ INSTALLED_APPS = (
 manage.py collectstatic
 ```
 
-## Использование
+## Исходные данные
 
-Допустим, у нас в БД имеется таблица, записи которой содержат поля типа `datetime`.
+Допустим, у нас в БД имеется таблица, записи которой содержат следующие поля.
 
 ```python
 # models.py
 from django.db import models
 
+STATUS_CHOICES = (
+  ('P', 'Pending'),
+  ('A', 'Approved'),
+  ('R', 'Rejected'),
+)
+
 class Log(models.Model):
     text = models.CharField(max_length=100)
     timestamp1 = models.DateTimeField(default=None, null=True)
     timestamp2 = models.DateTimeField(default=None, null=True)
+    status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
 ```
+
+## Фильтр MultiChoice
+
+Для использования фильтра MultiChoice, укажите его в атрибуте `list_filter` соответствующего класса файла `admin.py`.
+
+```python
+# admin.py
+from django.contrib import admin
+from django_admin_filters import MultiChoice
+from .models import Log
+
+class StatusFilter(MultiChoice):
+    FILTER_LABEL = "По статусу"
+
+class Admin(admin.ModelAdmin):
+    list_display = ['text', 'status']
+    list_filter = [('status', StatusFilter)]
+
+admin.site.register(Log, Admin)
+```
+
+## Фильтры DateRange и DateRangePicker
 
 Для использования фильтров с интервалом дат нужно в файле `admin.py` указать их в атрибуте `list_filter` соответствующего класса.
 
@@ -64,7 +94,7 @@ class Admin(admin.ModelAdmin):
 admin.site.register(Log, Admin)
 ```
 
-## Настройка
+## Настройка фильтра DateRange
 
 Вы можете настроить внешний вид и поведение фильтров под свои требования путем наследования классов фильтров из библиотеки и переопределения некоторых атрибутов.
 
@@ -122,6 +152,8 @@ def to_dtime(text):
 -   Уникальная строка для использования в параметрах GET запроса. Кроме строк 'custom' и 'empty', которые используются фильтром.
 -   Заголовок пункта в меню фильтра.
 -   Смещение в секундах относительно текущего момента. Отрицательное значение задает смещение в прошлое.
+
+## Настройка фильтра DateRangePicker
 
 Фильтр `DateRangePicker` с javascript виджетом выбора даты/времени из календаря является производным от фильтра `DateRange` и позволяет переопределять все описанные выше атрибуты.
 Кроме того, в `DateRangePicker` можно переопределить дополнительные атрибуты.

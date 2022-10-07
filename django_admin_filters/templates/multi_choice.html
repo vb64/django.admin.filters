@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block choices_list %}
+
+{% for choice in choices %}
+  <li>
+  <input type="checkbox" id="{{ title.parameter_name }}_{{ choice.value }}" name="{{ title.parameter_name }}" value="{{ choice.value }}" {% if choice.selected %}checked{% endif %} />
+  <label for="{{ title.parameter_name }}_{{ choice.value }}">{{ choice.display }}</label>
+  </li>
+{% endfor %}
+
+{% endblock %}
+
+{% block javascript_code %}
+
+<script type="text/javascript">
+
+document.getElementById("btn_{{ title.parameter_name }}").onclick = function() {  
+  var urlParams = new URLSearchParams(window.location.search);
+  var check_boxes = document.getElementsByName("{{ title.parameter_name }}");
+  var option_selected = [];
+  for (var checkbox of check_boxes) {  
+    if (checkbox.checked) {
+      option_selected.push(checkbox.value);
+    }
+  }
+  urlParams.set("{{ title.parameter_name }}", option_selected.join("{{ title.choices_separator }}"));
+  window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
+}
+
+</script>
+
+{% endblock %}
