@@ -9,10 +9,11 @@ The free, open-source DjangoAdminFilters library is designed to filter objects i
 The library provide few filters for this purpose.
 
 -   `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
+-   `MultiChoiceExt`: extended variant of previous filter, that allows filtering by custom defined properties
 -   `DateRange`: set a custom date range using `input` fields
 -   `DateRangePicker`: set a custom date range using javascript widget for select datetime from calendar
 
-MultiChoice | DateRange | DateRangePicker
+MultiChoice and MultiChoiceExt | DateRange | DateRangePicker
 :------:|:-----:|:----:
 ![MultiChoice filter](img/multi_choice_en.png) | ![DateRange with input field](img/daterange_en.png) | ![DateRange with js widget](img/picker_en.png)
 

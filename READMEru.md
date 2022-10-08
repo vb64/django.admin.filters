@@ -3,10 +3,11 @@
 Бесплатная, с открытым исходным кодом библиотека DjangoAdminFilters позволяет использовать несколько дополнительных фильтров в таблицах админки Django.
 
 -   `MultiChoice`: множественный выбор с чекбоксами для полей типа CharField и IntegerField, имеющих опцию 'choices'
+-   `MultiChoiceExt`: расширенный вариант предыдущего фильтра, который позволяет фильтровать по заданным пользователем свойствам
 -   `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
 -   `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
 
- MultiChoice | DateRange | DateRangePicker
+ MultiChoice и MultiChoiceExt | DateRange | DateRangePicker
 :------------:|:-------------:|:------------:
 ![MultiChoice](img/multi_choice_en.png) | ![DateRange с полем input](img/daterange_ru.png) | ![DateRangePicker с js виджетом](img/picker_ru.png)
 
