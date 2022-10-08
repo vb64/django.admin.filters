@@ -31,7 +31,7 @@ INSTALLED_APPS = (
 )
 ```
 
-После этого подключить статические файлы библиотеки.
+Затем подключите статические файлы библиотеки.
 
 ```bash
 manage.py collectstatic
@@ -53,9 +53,15 @@ STATUS_CHOICES = (
 
 class Log(models.Model):
     text = models.CharField(max_length=100)
+
     timestamp1 = models.DateTimeField(default=None, null=True)
     timestamp2 = models.DateTimeField(default=None, null=True)
+
     status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
+
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
 ```
 
 ## Общие настройки для всех фильтров библиотеки
@@ -95,6 +101,9 @@ class Admin(admin.ModelAdmin):
 
 admin.site.register(Log, Admin)
 ```
+
+В админке Django отметьте нужные чекбоксы в фильтре и нажмите кнопку "Применить".
+Если пометка снята со всех чекбоксов фильтра и нажата кнопка применения фильтра, то фильтр не будет действовать и отобразятся все записи.
 
 ## Фильтры DateRange и DateRangePicker
 

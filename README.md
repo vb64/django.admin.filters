@@ -37,7 +37,7 @@ INSTALLED_APPS = (
 )
 ```
 
-After that, connect the static files of the library.
+Then connect the static files of the library.
 
 ```bash
 manage.py collectstatic
@@ -59,9 +59,15 @@ STATUS_CHOICES = (
 
 class Log(models.Model):
     text = models.CharField(max_length=100)
+
     timestamp1 = models.DateTimeField(default=None, null=True)
     timestamp2 = models.DateTimeField(default=None, null=True)
+
     status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
+
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
 ```
 
 ## Shared settings for all filters in the library
@@ -101,6 +107,9 @@ class Admin(admin.ModelAdmin):
 
 admin.site.register(Log, Admin)
 ```
+
+In the Django admin panel, check the required checkboxes in the filter and click the "Apply" button.
+If all filter checkboxes are unchecked and the apply filter button is pressed, than the filter will not been aplied and all records will be displayed.
 
 ## DateRange and DateRangePicker filters
 
