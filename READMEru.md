@@ -57,6 +57,25 @@ class Log(models.Model):
     status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
 ```
 
+## Общие настройки для всех фильтров библиотеки
+
+Вы можете настроить внешний вид и поведение фильтров под свои требования путем наследования классов фильтров из библиотеки и переопределения некоторых атрибутов.
+Все фильтры библиотеки поддерживают следующие атрибуты.
+
+```python
+# admin.py
+from django_admin_filters import MultiChoice
+
+class MyChoicesFilter(MultiChoice):
+    FILTER_LABEL = "Выберите опции"
+    BUTTON_LABEL = "Применить"
+    is_collapsed = False
+```
+
+-   FILTER_LABEL: Заголовок фильтра
+-   BUTTON_LABEL: Заголовок кнопки применения фильтра
+-   is_collapsed: Состояние фильтра (свернутый/распахнутый) при первой загрузке страницы
+
 ## Фильтр MultiChoice
 
 Для использования фильтра MultiChoice, укажите его в атрибуте `list_filter` соответствующего класса файла `admin.py`.
@@ -96,20 +115,18 @@ admin.site.register(Log, Admin)
 
 ## Настройка фильтра DateRange
 
-Вы можете настроить внешний вид и поведение фильтров под свои требования путем наследования классов фильтров из библиотеки и переопределения некоторых атрибутов.
-
 ```python
 # admin.py
 from django_admin_filters import DateRange
 
 class MyDateRange(DateRange):
     FILTER_LABEL = "Интервал данных"
+    BUTTON_LABEL = "Задать интервал"
     FROM_LABEL = "От"
     TO_LABEL = "До"
     ALL_LABEL = 'Все'
     CUSTOM_LABEL = "пользовательский"
     NULL_LABEL = "без даты"
-    BUTTON_LABEL = "Задать интервал"
     DATE_FORMAT = "YYYY-MM-DD HH:mm"
 
     is_null_option = True
@@ -122,12 +139,10 @@ class MyDateRange(DateRange):
 
 Можно переопределять следующие атрибуты.
 
--   `FILTER_LABEL`: Заголовок фильтра.
 -   `FROM_LABEL`: Текст у поля начальной даты.
 -   `TO_LABEL`: Текст у поля конечной даты.
 -   `ALL_LABEL`: Текст пункта меню фильтра для отображения всех записей.
 -   `CUSTOM_LABEL`: Текст пункта меню фильтра при использовании интервала дат.
--   `BUTTON_LABEL`: Текст кнопки установки интервала дат.
 -   `NULL_LABEL`: Текст пункта меню фильтра для отображения записей без даты.
 -   `is_null_option`: Установите этот атрибут в `False`, чтобы убрать из меню фильтра пункт отображения записей без даты.
 -   `DATE_FORMAT`: Текст подсказки о формате полей даты и времени.
