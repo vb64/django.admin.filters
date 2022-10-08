@@ -24,6 +24,8 @@ class ColorFilter(MultiChoiceExt):
 
     FILTER_LABEL = "By color"
     is_collapsed = True
+
+    # https://docs.djangoproject.com/en/4.1/topics/db/queries/#complex-lookups-with-q-objects
     options = [
       ('red', 'Red', Q(is_online=False)),
       ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
