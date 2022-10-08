@@ -108,6 +108,9 @@ class Admin(admin.ModelAdmin):
 admin.site.register(Log, Admin)
 ```
 
+The model field to which this filter is applied ('status' in the example above) must be of type `CharField` or `IntegerField`.
+When defining this field in `models.py`, the `choices` parameter must be used.
+
 In the Django admin panel, check the required checkboxes in the filter and click the "Apply" button.
 If all filter checkboxes are unchecked and the apply filter button is pressed, than the filter will not been aplied and all records will be displayed.
 
