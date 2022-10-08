@@ -15,18 +15,21 @@ class NumberFilter(MultiChoice):
     """Field number filter."""
 
     FILTER_LABEL = "By number"
+    is_collapsed = True
 
 
 class Timestamp1Filter(DateRange):
     """Field timestamp1 filter."""
 
     FILTER_LABEL = "By timestamp1"
+    is_collapsed = True
 
 
 class Timestamp2Filter(DateRangePicker):
     """Field timestamp2 filter."""
 
     FILTER_LABEL = "By timestamp2"
+    is_collapsed = True
 
 
 class Admin(admin.ModelAdmin):

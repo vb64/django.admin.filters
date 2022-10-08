@@ -1,5 +1,33 @@
+{% extends "./daterange.html" %}
 {% load static %}
-{% include "./daterange_base.html" %}
+
+{% block after_choices %}
+
+<table>
+<tbody>
+
+<tr>
+<td>{{ title.start_label }}</td>
+<td>
+ <div id="picker_{{ title.parameter_start }}"></div>
+ <input type="hidden" id="id_{{ title.parameter_start }}" value="{{ title.start_val }}"/>
+</td>
+</tr>
+
+<tr>
+<td>{{ title.end_label }}</td>
+<td>
+ <div id="picker_{{ title.parameter_end }}"></div>
+ <input type="hidden" id="id_{{ title.parameter_end }}" value="{{ title.end_val }}"/>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+{% endblock %}
+
+{% block javascript_code %}
 
 <link href="{% static 'css/datetimepicker.css' %}" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -32,38 +60,14 @@ $(document).ready( function () {
   });
 })
 
-function setCustom() {
+document.getElementById("btn_{{ title.parameter_name }}").onclick = function() {  
   var urlParams = new URLSearchParams(window.location.search);
   urlParams.set("{{ title.parameter_name }}", "{{ title.option_custom }}");
   urlParams.set("{{ title.parameter_start }}", document.getElementById("id_{{ title.parameter_start }}").value);
   urlParams.set("{{ title.parameter_end }}", document.getElementById("id_{{ title.parameter_end }}").value);
   window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
 }
+
 </script>
 
-<table>
-<tbody>
-
-<tr>
-<td>{{ title.start_label }}</td>
-<td>
- <div id="picker_{{ title.parameter_start }}"></div>
- <input type="hidden" id="id_{{ title.parameter_start }}" value="{{ title.start_val }}"/>
-</td>
-</tr>
-
-<tr>
-<td>{{ title.end_label }}</td>
-<td>
- <div id="picker_{{ title.parameter_end }}"></div>
- <input type="hidden" id="id_{{ title.parameter_end }}" value="{{ title.end_val }}"/>
-</td>
-</tr>
-
-<tr>
-<td></td>
-<td><input type="submit" value="{{ title.set_custom }}" onclick="setCustom();" /></td>
-</tr>
-
-</tbody>
-</table>
+{% endblock %}

@@ -63,6 +63,24 @@ class Log(models.Model):
     status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
 ```
 
+## Shared settings for all filters in the library
+
+You can customize the appearance and behavior of filters to suit your needs by inheriting the filter classes from the library and overriding some of the attributes.
+All library filters support the following attributes.
+
+```python
+from django_admin_filters import MultiChoice
+
+class MyChoicesFilter(MultiChoice):
+    FILTER_LABEL = "Select options"
+    BUTTON_LABEL = "Apply"
+    is_collapsed = False
+```
+
+-   FILTER_LABEL: Filter title
+-   BUTTON_LABEL: Title for filter apply button
+-   is_collapsed: Filter state (collapsed/expanded) on first page load
+
 ## MultiChoice filter
 
 To use MultiChoice filter, you need to specify them in the `admin.py` file in the `list_filter` attribute of the corresponding class.
@@ -102,20 +120,18 @@ admin.site.register(Log, Admin)
 
 ### Customization for DateRange filter
 
-You can customize the appearance and behavior of filters to suit your needs by inheriting the filter classes from the library and overriding some of the attributes.
-
 ```python
 # admin.py
 from django_admin_filters import DateRange
 
 class MyDateRange(DateRange):
     FILTER_LABEL = "Data range"
+    BUTTON_LABEL = "Set range"
     FROM_LABEL = "From"
     TO_LABEL = "To"
     ALL_LABEL = 'All'
     CUSTOM_LABEL = "custom range"
     NULL_LABEL = "no date"
-    BUTTON_LABEL = "Set range"
     DATE_FORMAT = "YYYY-MM-DD HH:mm"
 
     is_null_option = True
@@ -128,12 +144,10 @@ class MyDateRange(DateRange):
 
 You can override the following attributes.
 
--   `FILTER_LABEL`: Title of the filter.
 -   `FROM_LABEL`: The label of the start date field.
 -   `TO_LABEL`: The label of the end date field.
 -   `ALL_LABEL`: The label of the menu item for displaying all records.
 -   `CUSTOM_LABEL`: The label of the menu item when date range is set.
--   `BUTTON_LABEL`: The label of the button for set date range.
 -   `NULL_LABEL`: The label of the menu item for displaying records without date.
 -   `is_null_option`: Set this attribute to `False` to remove the option to display record without date from the filter menu.
 -   `DATE_FORMAT`: Hint about the format of the date and time fields.

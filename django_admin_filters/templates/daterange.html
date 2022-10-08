@@ -1,15 +1,15 @@
-{% include "./daterange_base.html" %}
+{% extends "./base.html" %}
 
-<script type="text/javascript">
+{% block choices_list %}
 
-function setCustom() {
-  var urlParams = new URLSearchParams(window.location.search);
-  urlParams.set("{{ title.parameter_name }}", "{{ title.option_custom }}");
-  urlParams.set("{{ title.parameter_start }}", document.getElementById("id_{{ title.parameter_start }}").value);
-  urlParams.set("{{ title.parameter_end }}", document.getElementById("id_{{ title.parameter_end }}").value);
-  window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
-}
-</script>
+{% for choice in choices %}
+    <li{% if choice.selected %} class="selected"{% endif %}>
+    <a href="{{ choice.query_string|iriencode }}" title="{{ choice.display }}">{{ choice.display }}</a></li>
+{% endfor %}
+
+{% endblock %}
+
+{% block after_choices %}
 
 <table>
 <tbody>
@@ -29,10 +29,23 @@ function setCustom() {
 <td><input type="text" id="id_{{ title.parameter_end }}" value="{{ title.end_val }}"/></td>
 </tr>
 
-<tr>
-<td></td>
-<td><input type="submit" value="{{ title.set_custom }}" onclick="setCustom();" /></td>
-</tr>
-
 </tbody>
 </table>
+
+{% endblock %}
+
+{% block javascript_code %}
+
+<script type="text/javascript">
+
+document.getElementById("btn_{{ title.parameter_name }}").onclick = function() {  
+  var urlParams = new URLSearchParams(window.location.search);
+  urlParams.set("{{ title.parameter_name }}", "{{ title.option_custom }}");
+  urlParams.set("{{ title.parameter_start }}", document.getElementById("id_{{ title.parameter_start }}").value);
+  urlParams.set("{{ title.parameter_end }}", document.getElementById("id_{{ title.parameter_end }}").value);
+  window.location.replace(window.location.pathname + '?' + urlParams.toString() + window.location.hash);
+}
+
+</script>
+
+{% endblock %}
