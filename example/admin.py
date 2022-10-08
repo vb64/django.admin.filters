@@ -35,7 +35,12 @@ class Timestamp2Filter(DateRangePicker):
 class Admin(admin.ModelAdmin):
     """Admin site customization."""
 
-    list_display = ['text', 'status', 'timestamp1', 'timestamp2']
+    list_display = [
+      'text',
+      'status',
+      'timestamp1', 'timestamp2',
+      'is_online', 'is_trouble1', 'is_trouble2', 'color'
+    ]
     list_filter = (
       ('status', StatusFilter),
       ('timestamp1', Timestamp1Filter),
