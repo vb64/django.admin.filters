@@ -63,7 +63,6 @@ class Log(models.Model):
 Все фильтры библиотеки поддерживают следующие атрибуты.
 
 ```python
-# admin.py
 from django_admin_filters import MultiChoice
 
 class MyChoicesFilter(MultiChoice):

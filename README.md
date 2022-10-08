@@ -69,6 +69,8 @@ You can customize the appearance and behavior of filters to suit your needs by i
 All library filters support the following attributes.
 
 ```python
+from django_admin_filters import MultiChoice
+
 class MyChoicesFilter(MultiChoice):
     FILTER_LABEL = "Select options"
     BUTTON_LABEL = "Apply"
