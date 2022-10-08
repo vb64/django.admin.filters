@@ -68,6 +68,7 @@ class Log(models.Model):
 You can customize the appearance and behavior of filters to suit your needs by inheriting the filter classes from the library and overriding some of the attributes.
 All library filters support the following attributes.
 
+```python
 class MyChoicesFilter(MultiChoice):
     FILTER_LABEL = "Select options"
     BUTTON_LABEL = "Apply"
