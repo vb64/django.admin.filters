@@ -1,6 +1,6 @@
 """Admin site."""
 from django.contrib import admin
-from django_admin_filters import DateRange, DateRangePicker, MultiChoice
+from django_admin_filters import DateRange, DateRangePicker, MultiChoice, MultiChoiceExt
 from .models import Log
 
 
@@ -15,6 +15,13 @@ class NumberFilter(MultiChoice):
     """Field number filter."""
 
     FILTER_LABEL = "By number"
+    is_collapsed = True
+
+
+class ColorFilter(MultiChoiceExt):
+    """Property color filter."""
+
+    FILTER_LABEL = "By color"
     is_collapsed = True
 
 
@@ -46,6 +53,7 @@ class Admin(admin.ModelAdmin):
       ('timestamp1', Timestamp1Filter),
       ('timestamp2', Timestamp2Filter),
       ('number', NumberFilter),
+      ('is_online', ColorFilter),
     )
 
 
