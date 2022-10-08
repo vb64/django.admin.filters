@@ -59,11 +59,7 @@ class Filter(BaseFilter):
 class FilterExt(Filter):
     """Extended variant of previous filter, that allows filtering by custom defined properties."""
 
-    options = [
-      ('red', 'Red', True),
-      ('yellow', 'Yellow', True),
-      ('green', 'Green', True),
-    ]
+    options = []
 
     def get_lookup_choices(self):
         """Return filter choices."""
@@ -71,4 +67,12 @@ class FilterExt(Filter):
 
     def queryset(self, request, queryset):
         """Return the filtered by selected options queryset."""
-        return queryset
+        if not self.selected:
+            return queryset
+
+        filters = {i[0]: i[2] for i in self.options}
+        qflt = filters[self.selected[0]]
+        for item in self.selected[1:]:
+            qflt |= filters[item]
+
+        return queryset.filter(qflt)

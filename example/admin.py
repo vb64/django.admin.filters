@@ -1,5 +1,6 @@
 """Admin site."""
 from django.contrib import admin
+from django.db.models import Q
 from django_admin_filters import DateRange, DateRangePicker, MultiChoice, MultiChoiceExt
 from .models import Log
 
@@ -23,6 +24,11 @@ class ColorFilter(MultiChoiceExt):
 
     FILTER_LABEL = "By color"
     is_collapsed = True
+    options = [
+      ('red', 'Red', Q(is_online=False)),
+      ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
+      ('green', 'Green', Q(is_online=True) & Q(is_trouble1=False) & Q(is_trouble2=False)),
+    ]
 
 
 class Timestamp1Filter(DateRange):
