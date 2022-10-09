@@ -123,11 +123,9 @@ admin.site.register(Log, Admin)
 
 Для этой модели мы определяем свойство `color` следующим образом.
 
-Свойство `color` имеет значение 'red', если поле `is_online == False`.
-
-Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
-
-Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
+-   Свойство `color` имеет значение 'red', если поле `is_online == False`.
+-   Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
+-   Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
 
 ```python
 # models.py
@@ -147,9 +145,9 @@ admin.site.register(Log, Admin)
 
 Каждый элемент списка состоит из трех значений.
 
-- уникальная строка, которая будет использоваться в параметре GET-запроса
-- текст у чекбокса
-- применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
+-   уникальная строка, которая будет использоваться в параметре GET-запроса
+-   текст у чекбокса
+-   применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
 
 Для нашего примера код будет таким.
 
