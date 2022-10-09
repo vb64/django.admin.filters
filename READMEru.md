@@ -157,7 +157,7 @@ from django.db.models import Q
 from django_admin_filters import MultiChoiceExt
 
 class ColorFilter(MultiChoiceExt):
-    FILTER_LABEL = "By color"
+    FILTER_LABEL = "По цвету"
     options = [
       ('red', 'Red', Q(is_online=False)),
       ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
