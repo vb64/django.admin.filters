@@ -90,6 +90,9 @@ class MyChoicesFilter(MultiChoice):
 
 ## MultiChoice filter
 
+For model fields of type `CharField` or `IntegerField` defined using the `choices` parameter (for example, the 'status' field in the `Log` model), you can use the MultiChoice filter.
+Values  of the parameter `choices` will be displayed as checkboxes.
+
 To use MultiChoice filter, you need to specify them in the `admin.py` file in the `list_filter` attribute of the corresponding class.
 
 ```python
@@ -108,11 +111,10 @@ class Admin(admin.ModelAdmin):
 admin.site.register(Log, Admin)
 ```
 
-The model field to which this filter is applied ('status' in the example above) must be of type `CharField` or `IntegerField`.
-When defining this field in `models.py`, the `choices` parameter must be used.
-
 In the Django admin panel, check the required checkboxes in the filter and click the "Apply" button.
 If all filter checkboxes are unchecked and the apply filter button is pressed, than the filter will not been aplied and all records will be displayed.
+
+## MultiChoiceExt filter
 
 ## DateRange and DateRangePicker filters
 
