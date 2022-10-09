@@ -110,6 +110,37 @@ admin.site.register(Log, Admin)
 
 ## Фильтр MultiChoiceExt
 
+Иногда нужно фильтровать данные по виртуальному свойству, которому не соответствует единственное поле модели.
+
+Например, в модели `Log` исходных данных есть три булевых поля.
+
+```python
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
+```
+
+Для этой модели мы определяем свойство `color`.
+
+Свойство `color` имеет значение 'red', если поле `is_online == False`.
+Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
+Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
+
+```python
+# models.py
+    @property
+    def color(self):
+        status = 'red'
+        if self.is_online:
+            status = 'green'
+            if self.is_trouble1 or self.is_trouble2:
+                status = 'yellow'
+
+        return status
+```
+
+Для фильтрации данных по такому свойству в админке Django можно использовать фильтр MultiChoiceExt.
+
 ## Фильтры DateRange и DateRangePicker
 
 Для использования фильтров с интервалом дат нужно в файле `admin.py` указать их в атрибуте `list_filter` соответствующего класса.
