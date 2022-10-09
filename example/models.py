@@ -22,3 +22,17 @@ class Log(models.Model):
     timestamp2 = models.DateTimeField(default=None, null=True)
     status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
     number = models.IntegerField(default=0, choices=NUM_CHOICES)
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
+
+    @property
+    def color(self):
+        """Color for object state."""
+        status = 'red'
+        if self.is_online:
+            status = 'green'
+            if self.is_trouble1 or self.is_trouble2:
+                status = 'yellow'
+
+        return status

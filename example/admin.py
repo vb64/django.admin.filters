@@ -1,6 +1,7 @@
 """Admin site."""
 from django.contrib import admin
-from django_admin_filters import DateRange, DateRangePicker, MultiChoice
+from django.db.models import Q
+from django_admin_filters import DateRange, DateRangePicker, MultiChoice, MultiChoiceExt
 from .models import Log
 
 
@@ -16,6 +17,20 @@ class NumberFilter(MultiChoice):
 
     FILTER_LABEL = "By number"
     is_collapsed = True
+
+
+class ColorFilter(MultiChoiceExt):
+    """Property color filter."""
+
+    FILTER_LABEL = "By color"
+    is_collapsed = True
+
+    # https://docs.djangoproject.com/en/4.1/topics/db/queries/#complex-lookups-with-q-objects
+    options = [
+      ('red', 'Red', Q(is_online=False)),
+      ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
+      ('green', 'Green', Q(is_online=True) & Q(is_trouble1=False) & Q(is_trouble2=False)),
+    ]
 
 
 class Timestamp1Filter(DateRange):
@@ -35,12 +50,18 @@ class Timestamp2Filter(DateRangePicker):
 class Admin(admin.ModelAdmin):
     """Admin site customization."""
 
-    list_display = ['text', 'status', 'timestamp1', 'timestamp2']
+    list_display = [
+      'text',
+      'status',
+      'timestamp1', 'timestamp2',
+      'is_online', 'is_trouble1', 'is_trouble2', 'color'
+    ]
     list_filter = (
       ('status', StatusFilter),
       ('timestamp1', Timestamp1Filter),
       ('timestamp2', Timestamp2Filter),
       ('number', NumberFilter),
+      ('is_online', ColorFilter),
     )
 
 

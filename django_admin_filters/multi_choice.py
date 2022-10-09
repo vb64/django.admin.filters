@@ -28,12 +28,17 @@ class Filter(BaseFilter):
         })
         val = self.value()
         self.selected = val.split(self.CHOICES_SEPARATOR) if val else []
+        self.lookup_choices = self.get_lookup_choices()
+
+    def get_lookup_choices(self):
+        """Return filter choices."""
         if self.field.get_internal_type() in ['IntegerField']:
             self.selected = [int(i) for i in self.selected]
+        return self.field.flatchoices
 
     def choices(self, changelist):
         """Define filter checkboxes."""
-        for lookup, title in self.field.flatchoices:
+        for lookup, title in self.lookup_choices:
             yield {
               'selected': lookup in self.selected,
               'value': lookup,
@@ -49,3 +54,25 @@ class Filter(BaseFilter):
             return queryset.filter(**params)
 
         return queryset
+
+
+class FilterExt(Filter):
+    """Extended variant of previous filter, that allows filtering by custom defined properties."""
+
+    options = []
+
+    def get_lookup_choices(self):
+        """Return filter choices."""
+        return [i[:2] for i in self.options]
+
+    def queryset(self, request, queryset):
+        """Return the filtered by selected options queryset."""
+        if not self.selected:
+            return queryset
+
+        filters = {i[0]: i[2] for i in self.options}
+        qflt = filters[self.selected[0]]
+        for item in self.selected[1:]:
+            qflt |= filters[item]
+
+        return queryset.filter(qflt)

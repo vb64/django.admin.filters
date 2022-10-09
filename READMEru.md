@@ -3,10 +3,11 @@
 Бесплатная, с открытым исходным кодом библиотека DjangoAdminFilters позволяет использовать несколько дополнительных фильтров в таблицах админки Django.
 
 -   `MultiChoice`: множественный выбор с чекбоксами для полей типа CharField и IntegerField, имеющих опцию 'choices'
+-   `MultiChoiceExt`: другая версия предыдущего фильтра, который позволяет фильтровать по заданным пользователем свойствам
 -   `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
 -   `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
 
- MultiChoice | DateRange | DateRangePicker
+ MultiChoice и MultiChoiceExt | DateRange | DateRangePicker
 :------------:|:-------------:|:------------:
 ![MultiChoice](img/multi_choice_en.png) | ![DateRange с полем input](img/daterange_ru.png) | ![DateRangePicker с js виджетом](img/picker_ru.png)
 
@@ -30,7 +31,7 @@ INSTALLED_APPS = (
 )
 ```
 
-После этого подключить статические файлы библиотеки.
+Затем подключите статические файлы библиотеки.
 
 ```bash
 manage.py collectstatic
@@ -52,9 +53,15 @@ STATUS_CHOICES = (
 
 class Log(models.Model):
     text = models.CharField(max_length=100)
+
     timestamp1 = models.DateTimeField(default=None, null=True)
     timestamp2 = models.DateTimeField(default=None, null=True)
+
     status = models.CharField(max_length=1, default='P', choices=STATUS_CHOICES)
+
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
 ```
 
 ## Общие настройки для всех фильтров библиотеки
@@ -77,6 +84,9 @@ class MyChoicesFilter(MultiChoice):
 
 ## Фильтр MultiChoice
 
+Для полей модели типа `CharField` или `IntegerField`, определенных с использованием параметра `choices` (например, поле 'status' в модели `Log`), можно использовать фильтр MultiChoice.
+Значения из параметра `choices` будут отображаться в виде чекбоксов.
+
 Для использования фильтра MultiChoice, укажите его в атрибуте `list_filter` соответствующего класса файла `admin.py`.
 
 ```python
@@ -87,6 +97,7 @@ from .models import Log
 
 class StatusFilter(MultiChoice):
     FILTER_LABEL = "По статусу"
+    BUTTON_LABEL = "Применить"
 
 class Admin(admin.ModelAdmin):
     list_display = ['text', 'status']
@@ -94,6 +105,77 @@ class Admin(admin.ModelAdmin):
 
 admin.site.register(Log, Admin)
 ```
+
+В админке Django отметьте нужные чекбоксы в фильтре и нажмите кнопку "Применить".
+Если пометка снята со всех чекбоксов фильтра и нажата кнопка применения фильтра, то фильтр не будет действовать и отобразятся все записи.
+
+## Фильтр MultiChoiceExt
+
+Иногда нужно фильтровать данные по виртуальному свойству, которому не соответствует единственное поле модели.
+
+Например, в модели `Log` исходных данных есть три булевых поля.
+
+```python
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
+```
+
+Для этой модели мы определяем свойство `color` следующим образом.
+
+-   Свойство `color` имеет значение 'red', если поле `is_online == False`.
+-   Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
+-   Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
+
+```python
+# models.py
+    @property
+    def color(self):
+        status = 'red'
+        if self.is_online:
+            status = 'green'
+            if self.is_trouble1 or self.is_trouble2:
+                status = 'yellow'
+
+        return status
+```
+
+Для фильтрации данных по такому свойству в админке Django можно использовать фильтр MultiChoiceExt.
+В атрибуте `options` нужно указать список чекбоксов, который будет отображаться при использовании фильтра.
+
+Каждый элемент списка состоит из трех значений.
+
+-   уникальная строка, которая будет использоваться в параметре GET-запроса
+-   текст у чекбокса
+-   применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
+
+Для нашего примера код будет таким.
+
+```python
+# admin.py
+from django.db.models import Q
+from django_admin_filters import MultiChoiceExt
+
+class ColorFilter(MultiChoiceExt):
+    FILTER_LABEL = "По цвету"
+    options = [
+      ('red', 'Red', Q(is_online=False)),
+      ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
+      ('green', 'Green', Q(is_online=True) & Q(is_trouble1=False) & Q(is_trouble2=False)),
+    ]
+
+class Admin(admin.ModelAdmin):
+    list_display = ['text', 'color']
+    list_filter = [('is_online', ColorFilter)]
+
+admin.site.register(Log, Admin)
+```
+
+При указании поля, к которому применяется фильтр, нужно указывать имя существующего поля модели (например, 'is_online' в примере выше),
+а не имя виртуального свойства ('color').
+Можно указывать имя любого поля модели. Это необходимо, чтобы Django при создании экземпляра фильтра признала его валидным.
+
+В остальном поведение и настройки фильтра `MultiChoiceExt` аналогичны описанному ранее фильтру `MultiChoice`.
 
 ## Фильтры DateRange и DateRangePicker
 
