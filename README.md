@@ -116,6 +116,72 @@ If all filter checkboxes are unchecked and the apply filter button is pressed, t
 
 ## MultiChoiceExt filter
 
+Sometimes you need to filter data by a custom defined property that does not match a single field in the model.
+
+For example, in the `Log` model of the source data, there are three boolean fields.
+
+```python
+    is_online = models.BooleanField(default=False)
+    is_trouble1 = models.BooleanField(default=False)
+    is_trouble2 = models.BooleanField(default=False)
+```
+
+For this model, we define the `color` property as follows.
+
+-   The `color` property has the value 'red' if the field `is_online == False`.
+-   If `is_online == True` and both `is_trouble1` and `is_trouble1` fields are False, then the value of the property is 'green'.
+-   If `is_online == True` and at least one of the fields `is_trouble1` and `is_trouble1` is True, then the property has the value 'yellow'.
+
+```python
+# models.py
+    @property
+    def color(self):
+        status = 'red'
+        if self.is_online:
+            status = 'green'
+            if self.is_trouble1 or self.is_trouble2:
+                status = 'yellow'
+
+        return status
+```
+
+To filter data by such a property in the Django admin panel, you can use the MultiChoiceExt filter.
+In the `options` attribute, you need to specify a list of checkboxes that will be displayed when using the filter.
+
+Each element of the list consists of three values.
+
+-   a unique string to be used in the GET request parameter
+-   checkbox label
+-   filtering expression applied to the DB model in the form of [Django Q-objects](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
+
+For our example, the code will look like this.
+
+```python
+# admin.py
+from django.db.models import Q
+from django_admin_filters import MultiChoiceExt
+
+class ColorFilter(MultiChoiceExt):
+    FILTER_LABEL = "By color"
+    options = [
+      ('red', 'Red', Q(is_online=False)),
+      ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
+      ('green', 'Green', Q(is_online=True) & Q(is_trouble1=False) & Q(is_trouble2=False)),
+    ]
+
+class Admin(admin.ModelAdmin):
+    list_display = ['text', 'color']
+    list_filter = [('is_online', ColorFilter)]
+
+admin.site.register(Log, Admin)
+```
+
+When specifying the field to which the filter is applied, you must specify the name of an existing model field (for example, 'is_online' in the example above),
+and not the name of the virtual property ('color').
+You can specify the name of any field in the model. This is necessary so that Django will recognize it as valid when creating an instance of the filter.
+
+Otherwise, the behavior and settings of the `MultiChoiceExt` filter are similar to the `MultiChoice` filter described earlier.
+
 ## DateRange and DateRangePicker filters
 
 To use filters with a date interval, you need to specify them in the `admin.py` file in the `list_filter` attribute of the corresponding class.
