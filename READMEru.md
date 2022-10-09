@@ -84,8 +84,8 @@ class MyChoicesFilter(MultiChoice):
 
 ## Фильтр MultiChoice
 
-Для полей модели типа `CharField` или `IntegerField`, определенных с использованием параметром `choices` (например, поле 'status' в модели `Log`), можно использовать фильтр MultiChoice.
-Значения параметра `choices` будут отображаться в виде чекбоксов.
+Для полей модели типа `CharField` или `IntegerField`, определенных с использованием параметра `choices` (например, поле 'status' в модели `Log`), можно использовать фильтр MultiChoice.
+Значения из параметра `choices` будут отображаться в виде чекбоксов.
 
 Для использования фильтра MultiChoice, укажите его в атрибуте `list_filter` соответствующего класса файла `admin.py`.
 
@@ -97,6 +97,7 @@ from .models import Log
 
 class StatusFilter(MultiChoice):
     FILTER_LABEL = "По статусу"
+    BUTTON_LABEL = "Применить"
 
 class Admin(admin.ModelAdmin):
     list_display = ['text', 'status']
@@ -123,7 +124,9 @@ admin.site.register(Log, Admin)
 Для этой модели мы определяем свойство `color` следующим образом.
 
 Свойство `color` имеет значение 'red', если поле `is_online == False`.
+
 Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
+
 Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
 
 ```python
