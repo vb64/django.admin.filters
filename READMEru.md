@@ -120,7 +120,7 @@ admin.site.register(Log, Admin)
     is_trouble2 = models.BooleanField(default=False)
 ```
 
-Для этой модели мы определяем свойство `color`.
+Для этой модели мы определяем свойство `color` следующим образом.
 
 Свойство `color` имеет значение 'red', если поле `is_online == False`.
 Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
@@ -140,6 +140,41 @@ admin.site.register(Log, Admin)
 ```
 
 Для фильтрации данных по такому свойству в админке Django можно использовать фильтр MultiChoiceExt.
+В атрибуте `options` нужно указать список чекбоксов, который будет отображаться при использовании фильтра.
+
+Каждый элемент списка состоит из трех значений.
+
+- уникальная строка, которая будет использоваться в параметре GET-запроса
+- текст у чекбокса
+- применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
+
+Для нашего примера код будет таким.
+
+```python
+# admin.py
+from django.db.models import Q
+from django_admin_filters import MultiChoiceExt
+
+class ColorFilter(MultiChoiceExt):
+    FILTER_LABEL = "By color"
+    options = [
+      ('red', 'Red', Q(is_online=False)),
+      ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
+      ('green', 'Green', Q(is_online=True) & Q(is_trouble1=False) & Q(is_trouble2=False)),
+    ]
+
+class Admin(admin.ModelAdmin):
+    list_display = ['text', 'color']
+    list_filter = [('is_online', ColorFilter)]
+
+admin.site.register(Log, Admin)
+```
+
+При указании поля, к которому применяется фильтр, нужно указывать имя существующего поля модели (например, 'is_online' в примере выше),
+а не имя виртуального свойства ('color').
+Можно указывать имя любого поля модели. Это необходимо, чтобы Django при создании экземпляра фильтра признала его валидным.
+
+В остальном поведение и настройки фильтра `MultiChoiceExt` аналогичны описанному ранее фильтру `MultiChoice`.
 
 ## Фильтры DateRange и DateRangePicker
 
