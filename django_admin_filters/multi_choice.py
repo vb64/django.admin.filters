@@ -1,5 +1,5 @@
 """Django admin multi choice filter with checkboxes for db fields with choices option."""
-from .base import Filter as BaseFilter
+from .base import Filter as BaseFilter, FilterSimple as BaseFilterSimple
 
 
 class Choices:
@@ -19,11 +19,6 @@ class Choices:
           'choices_separator': self.CHOICES_SEPARATOR,
         })
         self.selected = val.split(self.CHOICES_SEPARATOR) if val else []
-        self.lookup_choices = self.get_lookup_choices()
-
-    def get_lookup_choices(self):
-        """Return filter choices."""
-        return []
 
     def choices(self, _changelist):
         """Define filter checkboxes."""
@@ -52,16 +47,13 @@ class Filter(BaseFilter, Choices):
         """Extend base functionality."""
         super().__init__(field, request, params, model, model_admin, field_path)
         self.set_selected(self.value(), self.title)
+        if self.field.get_internal_type() in ['IntegerField']:
+            self.selected = [int(i) for i in self.selected]
+        self.lookup_choices = self.field.flatchoices
 
     def choices(self, changelist):
         """Call shared implementation."""
         return Choices.choices(self, changelist)
-
-    def get_lookup_choices(self):
-        """Return filter choices."""
-        if self.field.get_internal_type() in ['IntegerField']:
-            self.selected = [int(i) for i in self.selected]
-        return self.field.flatchoices
 
     def queryset(self, request, queryset):
         """Return the filtered by selected options queryset."""
@@ -74,12 +66,21 @@ class Filter(BaseFilter, Choices):
         return queryset
 
 
-class FilterExt(Filter):
+class FilterExt(BaseFilterSimple, Choices):
     """Allows filtering by custom defined properties."""
 
     options = []
 
-    def get_lookup_choices(self):
+    def __init__(self, request, params, model, model_admin):
+        """Combine parents init."""
+        super().__init__(request, params, model, model_admin)
+        self.set_selected(self.value(), self.title)
+
+    def choices(self, changelist):
+        """Call shared implementation."""
+        return Choices.choices(self, changelist)
+
+    def lookups(self, request, model_admin):
         """Return filter choices."""
         return [i[:2] for i in self.options]
 

@@ -52,3 +52,23 @@ class Filter(admin.FieldListFilter, Collapsed):
     def choices(self, changelist):
         """Must be implemented in childs."""
         raise NotImplementedError('Method choices')
+
+
+class FilterSimple(admin.SimpleListFilter, Collapsed):
+    """Base class for filters without field with title, apply button and collapsed state."""
+
+    parameter_name = 'adminfilter'
+    title = 'Filter'
+
+    def __init__(self, request, params, model, model_admin):
+        """Combine parents init."""
+        super().__init__(request, params, model, model_admin)
+        self.set_title()
+
+    def lookups(self, request, model_admin):
+        """Must be implemented in childs."""
+        raise NotImplementedError('Method lookups')
+
+    def queryset(self, request, queryset):
+        """Must be implemented in childs."""
+        raise NotImplementedError('Method queryset')

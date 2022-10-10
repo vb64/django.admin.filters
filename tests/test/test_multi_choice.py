@@ -33,7 +33,7 @@ class TestsMultiChoice(TestBase):
         """Filter queryset with MultiChoiceExt."""
         from example.admin import ColorFilter
 
-        pname = ColorFilter.parameter_name_mask + 'is_online'
+        pname = ColorFilter.parameter_name
         request = self.admin_get({pname: 'green' + ColorFilter.CHOICES_SEPARATOR + 'red'})
 
         changelist = self.modeladmin.get_changelist_instance(request)

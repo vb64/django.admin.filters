@@ -22,6 +22,7 @@ class NumberFilter(MultiChoice):
 class ColorFilter(MultiChoiceExt):
     """Property color filter."""
 
+    parameter_name = "color"
     FILTER_LABEL = "By color"
     is_collapsed = True
 
@@ -61,7 +62,7 @@ class Admin(admin.ModelAdmin):
       ('timestamp1', Timestamp1Filter),
       ('timestamp2', Timestamp2Filter),
       ('number', NumberFilter),
-      ('is_online', ColorFilter),
+      ColorFilter
     )
 
 
