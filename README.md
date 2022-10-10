@@ -81,12 +81,10 @@ from django_admin_filters import MultiChoice
 class MyChoicesFilter(MultiChoice):
     FILTER_LABEL = "Select options"
     BUTTON_LABEL = "Apply"
-    is_collapsed = False
 ```
 
 -   FILTER_LABEL: Filter title
 -   BUTTON_LABEL: Title for filter apply button
--   is_collapsed: Filter state (collapsed/expanded) on first page load
 
 ## MultiChoice filter
 

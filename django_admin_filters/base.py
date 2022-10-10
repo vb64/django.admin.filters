@@ -2,10 +2,9 @@
 from django.contrib import admin
 
 
-class Collapsed:
+class Base:
     """Mixin class for filters with title, apply button and collapsed state."""
 
-    is_collapsed = False
     parameter_name = 'filter'
     title = None
 
@@ -18,16 +17,10 @@ class Collapsed:
           'parameter_name': self.parameter_name,
           'filter_name': self.FILTER_LABEL,
           'button_label': self.BUTTON_LABEL,
-          'collapsed': self.collapsed_state,
         }
 
-    @property
-    def collapsed_state(self):
-        """Return string for CSS stype."""
-        return '' if self.is_collapsed else 'open'
 
-
-class Filter(admin.FieldListFilter, Collapsed):
+class Filter(admin.FieldListFilter, Base):
     """Base class for filters applied to field with title, apply button and collapsed state."""
 
     parameter_name_mask = 'adminfilter_'
@@ -54,7 +47,7 @@ class Filter(admin.FieldListFilter, Collapsed):
         raise NotImplementedError('Method choices')
 
 
-class FilterSimple(admin.SimpleListFilter, Collapsed):
+class FilterSimple(admin.SimpleListFilter, Base):
     """Base class for filters without field with title, apply button and collapsed state."""
 
     parameter_name = 'adminfilter'
