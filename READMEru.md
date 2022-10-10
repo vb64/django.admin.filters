@@ -149,6 +149,8 @@ admin.site.register(Log, Admin)
 -   текст у чекбокса
 -   применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
 
+В атрибуте `parameter_name` нужно указать имя параметра GET-запроса, в котором будут передаваться данные фильтра.
+
 Для нашего примера код будет таким.
 
 ```python
@@ -158,6 +160,7 @@ from django_admin_filters import MultiChoiceExt
 
 class ColorFilter(MultiChoiceExt):
     FILTER_LABEL = "По цвету"
+    parameter_name = "color"
     options = [
       ('red', 'Red', Q(is_online=False)),
       ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
@@ -170,10 +173,6 @@ class Admin(admin.ModelAdmin):
 
 admin.site.register(Log, Admin)
 ```
-
-При указании поля, к которому применяется фильтр, нужно указывать имя существующего поля модели (например, 'is_online' в примере выше),
-а не имя виртуального свойства ('color').
-Можно указывать имя любого поля модели. Это необходимо, чтобы Django при создании экземпляра фильтра признала его валидным.
 
 В остальном поведение и настройки фильтра `MultiChoiceExt` аналогичны описанному ранее фильтру `MultiChoice`.
 
