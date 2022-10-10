@@ -154,6 +154,8 @@ Each element of the list consists of three values.
 -   checkbox label
 -   filtering expression applied to the DB model in the form of [Django Q-objects](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
 
+In the `parameter_name` attribute, you need to specify the name of the GET request parameter for sending filter data.
+
 For our example, the code will look like this.
 
 ```python
@@ -163,6 +165,7 @@ from django_admin_filters import MultiChoiceExt
 
 class ColorFilter(MultiChoiceExt):
     FILTER_LABEL = "By color"
+    parameter_name = "color"
     options = [
       ('red', 'Red', Q(is_online=False)),
       ('yellow', 'Yellow', Q(is_online=True) & (Q(is_trouble1=True) | Q(is_trouble2=True))),
@@ -175,10 +178,6 @@ class Admin(admin.ModelAdmin):
 
 admin.site.register(Log, Admin)
 ```
-
-When specifying the field to which the filter is applied, you must specify the name of an existing model field (for example, 'is_online' in the example above),
-and not the name of the virtual property ('color').
-You can specify the name of any field in the model. This is necessary so that Django will recognize it as valid when creating an instance of the filter.
 
 Otherwise, the behavior and settings of the `MultiChoiceExt` filter are similar to the `MultiChoice` filter described earlier.
 
