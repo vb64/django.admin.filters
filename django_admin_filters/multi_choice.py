@@ -5,7 +5,7 @@ from .base import Filter as BaseFilter
 class Choices:
     """Multi choice options filter."""
 
-    template = 'multi_choice.html'
+    template = None
     selected = []
     lookup_choices = []
 
@@ -14,6 +14,7 @@ class Choices:
 
     def set_selected(self, val, title):
         """Init choices according request parameter string."""
+        self.template = 'multi_choice.html'
         title.update({
           'choices_separator': self.CHOICES_SEPARATOR,
         })
