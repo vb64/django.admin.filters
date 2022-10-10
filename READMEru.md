@@ -75,12 +75,10 @@ from django_admin_filters import MultiChoice
 class MyChoicesFilter(MultiChoice):
     FILTER_LABEL = "Выберите опции"
     BUTTON_LABEL = "Применить"
-    is_collapsed = False
 ```
 
 -   FILTER_LABEL: Заголовок фильтра
 -   BUTTON_LABEL: Заголовок кнопки применения фильтра
--   is_collapsed: Состояние фильтра (свернутый/распахнутый) при первой загрузке страницы
 
 ## Фильтр MultiChoice
 

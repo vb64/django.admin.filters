@@ -9,14 +9,12 @@ class StatusFilter(MultiChoice):
     """Field status filter."""
 
     FILTER_LABEL = "By status"
-    is_collapsed = True
 
 
 class NumberFilter(MultiChoice):
     """Field number filter."""
 
     FILTER_LABEL = "By number"
-    is_collapsed = True
 
 
 class ColorFilter(MultiChoiceExt):
@@ -24,7 +22,6 @@ class ColorFilter(MultiChoiceExt):
 
     parameter_name = "color"
     FILTER_LABEL = "By color"
-    is_collapsed = True
 
     # https://docs.djangoproject.com/en/4.1/topics/db/queries/#complex-lookups-with-q-objects
     options = [
@@ -38,14 +35,12 @@ class Timestamp1Filter(DateRange):
     """Field timestamp1 filter."""
 
     FILTER_LABEL = "By timestamp1"
-    is_collapsed = True
 
 
 class Timestamp2Filter(DateRangePicker):
     """Field timestamp2 filter."""
 
     FILTER_LABEL = "By timestamp2"
-    is_collapsed = True
 
 
 class Admin(admin.ModelAdmin):
