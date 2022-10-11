@@ -172,7 +172,7 @@ class ColorFilter(MultiChoiceExt):
 
 class Admin(admin.ModelAdmin):
     list_display = ['text', 'color']
-    list_filter = [('is_online', ColorFilter)]
+    list_filter = [ColorFilter]
 
 admin.site.register(Log, Admin)
 ```
