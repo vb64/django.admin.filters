@@ -5,6 +5,8 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/926ec3c1141f4230b4d0508497e5561f)](https://www.codacy.com/gh/vb64/django.admin.filters/dashboard?utm_source=github.com&utm_medium=referral&utm_content=vb64/django.admin.filters&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/926ec3c1141f4230b4d0508497e5561f)](https://www.codacy.com/gh/vb64/django.admin.filters/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vb64/django.admin.filters&amp;utm_campaign=Badge_Grade)
 
+[In Russian](READMEru.md)
+
 The free, open-source DjangoAdminFilters library is designed to filter objects in the Django admin site.
 The library provide few filters for this purpose.
 
