@@ -4,6 +4,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vb64/django.admin.filters/django4.yml?label=Django%204.2.3%20Python%203.8-3.11&style=plastic&branch=main)](https://github.com/vb64/django.admin.filters/actions?query=workflow%3Adjango4)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/926ec3c1141f4230b4d0508497e5561f)](https://www.codacy.com/gh/vb64/django.admin.filters/dashboard?utm_source=github.com&utm_medium=referral&utm_content=vb64/django.admin.filters&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/926ec3c1141f4230b4d0508497e5561f)](https://www.codacy.com/gh/vb64/django.admin.filters/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vb64/django.admin.filters&amp;utm_campaign=Badge_Grade)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/django-admin-list-filters?label=pypi%20installs)](https://pypistats.org/packages/django-admin-list-filters)
 
 [In Russian](READMEru.md)
 
