@@ -10,7 +10,7 @@ PTEST = ./venv/bin/pytest
 COVERAGE = ./venv/bin/coverage
 endif
 
-DJANGO_VER = 4
+DJANGO_VER = 5
 
 SOURCE = django_admin_filters
 TESTS = tests
