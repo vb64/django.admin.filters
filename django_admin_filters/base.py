@@ -31,6 +31,13 @@ class Filter(admin.FieldListFilter, Base):
         super().__init__(field, request, params, model, model_admin, field_path)
         self.set_title()
 
+    def get_facet_counts(self, _pk_attname, _filtered_qs):
+        """Django5 amin site Facets.
+
+        https://docs.djangoproject.com/en/5.0/ref/contrib/admin/filters/#facet-filters
+        """
+        return {}
+
     def value(self):
         """Return the string provided in the request's query string.
 
