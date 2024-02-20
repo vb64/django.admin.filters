@@ -18,7 +18,11 @@ class Choices:
         title.update({
           'choices_separator': self.CHOICES_SEPARATOR,
         })
-        self.selected = val.split(self.CHOICES_SEPARATOR) if val else []
+
+        if isinstance(val, str):
+            val = val.split(self.CHOICES_SEPARATOR)
+
+        self.selected = val or []
 
     def choices(self, _changelist):
         """Define filter checkboxes."""

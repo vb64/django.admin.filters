@@ -43,7 +43,11 @@ class Filter(admin.FieldListFilter, Base):
 
         None if the value wasn't provided.
         """
-        return self.used_parameters.get(self.parameter_name)
+        val = self.used_parameters.get(self.parameter_name)
+        if isinstance(val, list):
+            val = val[0]
+
+        return val
 
     def expected_parameters(self):
         """Parameter list for chice filter."""

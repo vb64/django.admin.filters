@@ -65,6 +65,9 @@ class Filter(BaseFilter):
     @staticmethod
     def to_dtime(text):
         """Convert string to datetime."""
+        if isinstance(text, list):
+            text = text[0]
+
         try:
             return datetime.fromisoformat(text)
         except ValueError:
