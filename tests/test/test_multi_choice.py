@@ -28,6 +28,7 @@ class TestsMultiChoice(TestBase):
 
         flt_choice = changelist.get_filters(request)[0][0]
         assert flt_choice.queryset(request, self.queryset) is not None
+        assert not flt_choice.get_facet_counts(None, None)
 
     def test_queryset_ext(self):
         """Filter queryset with MultiChoiceExt."""
