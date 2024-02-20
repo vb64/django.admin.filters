@@ -1,4 +1,5 @@
 # DjangoAdminFilters library
+
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vb64/django.admin.filters/pep257.yml?label=Pep257&style=plastic&branch=main)](https://github.com/vb64/django.admin.filters/actions?query=workflow%3Apep257)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vb64/django.admin.filters/django3.yml?label=Django%203.2.23%20Python%203.7-3.10&style=plastic&branch=main)](https://github.com/vb64/django.admin.filters/actions?query=workflow%3Adjango3)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/vb64/django.admin.filters/django4.yml?label=Django%204.2.8%20Python%203.8-3.11&style=plastic&branch=main)](https://github.com/vb64/django.admin.filters/actions?query=workflow%3Adjango4)
@@ -11,10 +12,10 @@
 The free, open-source DjangoAdminFilters library is designed to filter objects in the Django admin site.
 The library provide few filters for this purpose.
 
--   `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
--   `MultiChoiceExt`: another version of previous filter, that allows filtering by custom defined properties
--   `DateRange`: set a custom date range using `input` fields
--   `DateRangePicker`: set a custom date range using javascript widget for select datetime from calendar
+- `MultiChoice`: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option
+- `MultiChoiceExt`: another version of previous filter, that allows filtering by custom defined properties
+- `DateRange`: set a custom date range using `input` fields
+- `DateRangePicker`: set a custom date range using javascript widget for select datetime from calendar
 
 MultiChoice and MultiChoiceExt | DateRange | DateRangePicker
 :------:|:-----:|:----:
@@ -52,6 +53,7 @@ Let's say we have a table in the database. The records contain follows fields.
 
 ```python
 # models.py
+
 from django.db import models
 
 STATUS_CHOICES = (
@@ -86,8 +88,8 @@ class MyChoicesFilter(MultiChoice):
     BUTTON_LABEL = "Apply"
 ```
 
--   FILTER_LABEL: Filter title
--   BUTTON_LABEL: Title for filter apply button
+- FILTER_LABEL: Filter title
+- BUTTON_LABEL: Title for filter apply button
 
 ## MultiChoice filter
 
@@ -98,6 +100,7 @@ To use MultiChoice filter, you need to specify them in the `admin.py` file in th
 
 ```python
 # admin.py
+
 from django.contrib import admin
 from django_admin_filters import MultiChoice
 from .models import Log
@@ -129,12 +132,13 @@ For example, in the `Log` model of the source data, there are three boolean fiel
 
 For this model, we define the `color` property as follows.
 
--   The `color` property has the value 'red' if the field `is_online == False`.
--   If `is_online == True` and both `is_trouble1` and `is_trouble1` fields are False, then the value of the property is 'green'.
--   If `is_online == True` and at least one of the fields `is_trouble1` and `is_trouble1` is True, then the property has the value 'yellow'.
+- The `color` property has the value 'red' if the field `is_online == False`.
+- If `is_online == True` and both `is_trouble1` and `is_trouble1` fields are False, then the value of the property is 'green'.
+- If `is_online == True` and at least one of the fields `is_trouble1` and `is_trouble1` is True, then the property has the value 'yellow'.
 
 ```python
 # models.py
+
     @property
     def color(self):
         status = 'red'
@@ -151,9 +155,9 @@ In the `options` attribute, you need to specify a list of checkboxes that will b
 
 Each element of the list consists of three values.
 
--   a unique string to be used in the GET request parameter
--   checkbox label
--   filtering expression applied to the DB model in the form of [Django Q-objects](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
+- a unique string to be used in the GET request parameter
+- checkbox label
+- filtering expression applied to the DB model in the form of [Django Q-objects](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
 
 In the `parameter_name` attribute, you need to specify the name of the GET request parameter for sending filter data.
 
@@ -161,6 +165,7 @@ For our example, the code will look like this.
 
 ```python
 # admin.py
+
 from django.db.models import Q
 from django_admin_filters import MultiChoiceExt
 
@@ -188,6 +193,7 @@ To use filters with a date interval, you need to specify them in the `admin.py` 
 
 ```python
 # admin.py
+
 from django.contrib import admin
 from django_admin_filters import DateRange, DateRangePicker
 from .models import Log
@@ -203,6 +209,7 @@ admin.site.register(Log, Admin)
 
 ```python
 # admin.py
+
 from django_admin_filters import DateRange
 
 class MyDateRange(DateRange):
@@ -225,13 +232,13 @@ class MyDateRange(DateRange):
 
 You can override the following attributes.
 
--   `FROM_LABEL`: The label of the start date field.
--   `TO_LABEL`: The label of the end date field.
--   `ALL_LABEL`: The label of the menu item for displaying all records.
--   `CUSTOM_LABEL`: The label of the menu item when date range is set.
--   `NULL_LABEL`: The label of the menu item for displaying records without date.
--   `is_null_option`: Set this attribute to `False` to remove the option to display record without date from the filter menu.
--   `DATE_FORMAT`: Hint about the format of the date and time fields.
+- `FROM_LABEL`: The label of the start date field.
+- `TO_LABEL`: The label of the end date field.
+- `ALL_LABEL`: The label of the menu item for displaying all records.
+- `CUSTOM_LABEL`: The label of the menu item when date range is set.
+- `NULL_LABEL`: The label of the menu item for displaying records without date.
+- `is_null_option`: Set this attribute to `False` to remove the option to display record without date from the filter menu.
+- `DATE_FORMAT`: Hint about the format of the date and time fields.
 
 You can change the date/time input format to your own.
 However, you may need to override the `to_dtime` method as well.
@@ -250,9 +257,9 @@ def to_dtime(text):
 The `options` attribute specifies filter menu items that allow you to select data from the current moment to an offset of a specified number of seconds in the past or future.
 Each element of the `options` list contains three values.
 
--   A unique string to use in the GET request parameters. Except for the strings 'custom' and 'empty' which are used by the filter.
--   The title of the item in the filter menu.
--   Offset in seconds relative to the current moment. A negative value specifies an offset to the past.
+- A unique string to use in the GET request parameters. Except for the strings 'custom' and 'empty' which are used by the filter.
+- The title of the item in the filter menu.
+- Offset in seconds relative to the current moment. A negative value specifies an offset to the past.
 
 ### Customization for DateRangePicker filter
 
@@ -261,6 +268,7 @@ Also, additional attributes can be overridden in `DateRangePicker`.
 
 ```python
 # admin.py
+
 from django_admin_filters import DateRangePicker
 
 class MyDateRangePicker(DateRangePicker):
@@ -277,15 +285,15 @@ class MyDateRangePicker(DateRangePicker):
     WIDGET_END_LEFT = -400
 ```
 
--   WIDGET_LOCALE: The language code for display the names of the months and days of the week. By default is the value of the `LANGUAGE_CODE` item in your project's `settings.py` file.
--   WIDGET_BUTTON_LABEL: The label of the select button.
--   WIDGET_WITH_TIME: Set this attribute to `False` if you only want to select a date without a time.
--   WIDGET_START_TITLE: The title of the widget when selecting the start date of the interval.
--   WIDGET_START_TOP: The vertical offset of the widget's calendar window when selecting the start date of the interval.
--   WIDGET_START_LEFT: The horizontal offset of the widget's calendar window when selecting the start date of the interval.
--   WIDGET_END_TITLE: The title of the widget when selecting the end date of the interval.
--   WIDGET_END_TOP: The vertical offset of the widget's calendar window when selecting the end date of the interval.
--   WIDGET_END_LEFT: The horizontal offset of the widget's calendar window when selecting the end date of the interval.
+- WIDGET_LOCALE: The language code for display the names of the months and days of the week. By default is the value of the `LANGUAGE_CODE` item in your project's `settings.py` file.
+- WIDGET_BUTTON_LABEL: The label of the select button.
+- WIDGET_WITH_TIME: Set this attribute to `False` if you only want to select a date without a time.
+- WIDGET_START_TITLE: The title of the widget when selecting the start date of the interval.
+- WIDGET_START_TOP: The vertical offset of the widget's calendar window when selecting the start date of the interval.
+- WIDGET_START_LEFT: The horizontal offset of the widget's calendar window when selecting the start date of the interval.
+- WIDGET_END_TITLE: The title of the widget when selecting the end date of the interval.
+- WIDGET_END_TOP: The vertical offset of the widget's calendar window when selecting the end date of the interval.
+- WIDGET_END_LEFT: The horizontal offset of the widget's calendar window when selecting the end date of the interval.
 
 ## Usage example
 
@@ -293,9 +301,9 @@ You can run an example of using the library on your local host.
 
 On the Windows platform, you must first install the following programs.
 
--   [Python3](https://www.python.org/downloads/release/python-3712/)
--   GNU [Unix Utils](http://unxutils.sourceforge.net/) for operations via makefile
--   [Git for Windows](https://git-scm.com/download/win) to access the source code repository.
+- [Python3](https://www.python.org/downloads/release/python-3712/)
+- GNU [Unix Utils](http://unxutils.sourceforge.net/) for operations via makefile
+- [Git for Windows](https://git-scm.com/download/win) to access the source code repository.
 
 Then clone the repository and run the installation, specifying the path to Python 3.
 
