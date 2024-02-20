@@ -4,10 +4,10 @@
 
 Бесплатная, с открытым исходным кодом библиотека DjangoAdminFilters позволяет использовать несколько дополнительных фильтров в таблицах админки Django.
 
--   `MultiChoice`: множественный выбор с чекбоксами для полей типа CharField и IntegerField, имеющих опцию 'choices'
--   `MultiChoiceExt`: другая версия предыдущего фильтра, который позволяет фильтровать по заданным пользователем свойствам
--   `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
--   `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
+- `MultiChoice`: множественный выбор с чекбоксами для полей типа CharField и IntegerField, имеющих опцию 'choices'
+- `MultiChoiceExt`: другая версия предыдущего фильтра, который позволяет фильтровать по заданным пользователем свойствам
+- `DateRange`: позволяет задавать пользовательский интервал дат с использованием полей `input`
+- `DateRangePicker`: позволяет задавать пользовательский интервал дат с использованием javascript виджета выбора даты/времени из календаря
 
  MultiChoice и MultiChoiceExt | DateRange | DateRangePicker
 :------------:|:-------------:|:------------:
@@ -45,6 +45,7 @@ manage.py collectstatic
 
 ```python
 # models.py
+
 from django.db import models
 
 STATUS_CHOICES = (
@@ -79,8 +80,8 @@ class MyChoicesFilter(MultiChoice):
     BUTTON_LABEL = "Применить"
 ```
 
--   FILTER_LABEL: Заголовок фильтра
--   BUTTON_LABEL: Заголовок кнопки применения фильтра
+- FILTER_LABEL: Заголовок фильтра
+- BUTTON_LABEL: Заголовок кнопки применения фильтра
 
 ## Фильтр MultiChoice
 
@@ -91,6 +92,7 @@ class MyChoicesFilter(MultiChoice):
 
 ```python
 # admin.py
+
 from django.contrib import admin
 from django_admin_filters import MultiChoice
 from .models import Log
@@ -123,12 +125,13 @@ admin.site.register(Log, Admin)
 
 Для этой модели мы определяем свойство `color` следующим образом.
 
--   Свойство `color` имеет значение 'red', если поле `is_online == False`.
--   Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
--   Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
+- Свойство `color` имеет значение 'red', если поле `is_online == False`.
+- Если `is_online == True` и оба поля `is_trouble1` и `is_trouble1` имеют значение False, то свойство имеет значение 'green'.
+- Если `is_online == True` и хотя бы одно из полей `is_trouble1` и `is_trouble1` имеет значение True, то свойство имеет значение 'yellow'.
 
 ```python
 # models.py
+
     @property
     def color(self):
         status = 'red'
@@ -145,9 +148,9 @@ admin.site.register(Log, Admin)
 
 Каждый элемент списка состоит из трех значений.
 
--   уникальная строка, которая будет использоваться в параметре GET-запроса
--   текст у чекбокса
--   применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
+- уникальная строка, которая будет использоваться в параметре GET-запроса
+- текст у чекбокса
+- применяемое к таблице модели в БД выражение фильтрации в виде [Q-объектов Django](https://docs.djangoproject.com/en/dev/topics/db/queries/#complex-lookups-with-q-objects)
 
 В атрибуте `parameter_name` нужно указать имя параметра GET-запроса, в котором будут передаваться данные фильтра.
 
@@ -155,6 +158,7 @@ admin.site.register(Log, Admin)
 
 ```python
 # admin.py
+
 from django.db.models import Q
 from django_admin_filters import MultiChoiceExt
 
@@ -182,6 +186,7 @@ admin.site.register(Log, Admin)
 
 ```python
 # admin.py
+
 from django.contrib import admin
 from django_admin_filters import DateRange, DateRangePicker
 from .models import Log
@@ -197,6 +202,7 @@ admin.site.register(Log, Admin)
 
 ```python
 # admin.py
+
 from django_admin_filters import DateRange
 
 class MyDateRange(DateRange):
@@ -219,13 +225,13 @@ class MyDateRange(DateRange):
 
 Можно переопределять следующие атрибуты.
 
--   `FROM_LABEL`: Текст у поля начальной даты.
--   `TO_LABEL`: Текст у поля конечной даты.
--   `ALL_LABEL`: Текст пункта меню фильтра для отображения всех записей.
--   `CUSTOM_LABEL`: Текст пункта меню фильтра при использовании интервала дат.
--   `NULL_LABEL`: Текст пункта меню фильтра для отображения записей без даты.
--   `is_null_option`: Установите этот атрибут в `False`, чтобы убрать из меню фильтра пункт отображения записей без даты.
--   `DATE_FORMAT`: Текст подсказки о формате полей даты и времени.
+- `FROM_LABEL`: Текст у поля начальной даты.
+- `TO_LABEL`: Текст у поля конечной даты.
+- `ALL_LABEL`: Текст пункта меню фильтра для отображения всех записей.
+- `CUSTOM_LABEL`: Текст пункта меню фильтра при использовании интервала дат.
+- `NULL_LABEL`: Текст пункта меню фильтра для отображения записей без даты.
+- `is_null_option`: Установите этот атрибут в `False`, чтобы убрать из меню фильтра пункт отображения записей без даты.
+- `DATE_FORMAT`: Текст подсказки о формате полей даты и времени.
 
 Вы можете изменить формат ввода даты/времени на собственный.
 Но при этом вам возможно будет необходимо также переопределить метод `to_dtime`.
@@ -244,9 +250,9 @@ def to_dtime(text):
 Атрибут `options` задает пункты меню фильтра, позволяющие выбирать данные от текущего момента до смещения на заданное количество секунд в прошлом либо будущем.
 Каждый элемент списка `options` содержит три значения.
 
--   Уникальная строка для использования в параметрах GET запроса. Кроме строк 'custom' и 'empty', которые используются фильтром.
--   Заголовок пункта в меню фильтра.
--   Смещение в секундах относительно текущего момента. Отрицательное значение задает смещение в прошлое.
+- Уникальная строка для использования в параметрах GET запроса. Кроме строк 'custom' и 'empty', которые используются фильтром.
+- Заголовок пункта в меню фильтра.
+- Смещение в секундах относительно текущего момента. Отрицательное значение задает смещение в прошлое.
 
 ## Настройка фильтра DateRangePicker
 
@@ -255,6 +261,7 @@ def to_dtime(text):
 
 ```python
 # admin.py
+
 from django_admin_filters import DateRangePicker
 
 class MyDateRangePicker(DateRangePicker):
@@ -271,15 +278,15 @@ class MyDateRangePicker(DateRangePicker):
     WIDGET_END_LEFT = -400
 ```
 
--   WIDGET_LOCALE: Код языка, на котором виджет будет отображать названия месяцев и дней недели. По умолчанию используется значение параметра `LANGUAGE_CODE` файла `settings.py` вашего проекта.
--   WIDGET_BUTTON_LABEL: Текст кнопки выбора виджета.
--   WIDGET_WITH_TIME: Установите значение этого атрибута в `False`, если вам требуется только выбор даты без времени.
--   WIDGET_START_TITLE: Заголовок виджета при выборе начальной даты интервала.
--   WIDGET_START_TOP: Смещение по вертикали окна календаря виджета при выборе начальной даты интервала.
--   WIDGET_START_LEFT: Смещение по горизонтали окна календаря виджета при выборе начальной даты интервала.
--   WIDGET_END_TITLE: Заголовок виджета при выборе конечной даты интервала.
--   WIDGET_END_TOP: Смещение по вертикали окна календаря виджета при выборе конечной даты интервала.
--   WIDGET_END_LEFT: Смещение по горизонтали окна календаря виджета при выборе конечной даты интервала.
+- WIDGET_LOCALE: Код языка, на котором виджет будет отображать названия месяцев и дней недели. По умолчанию используется значение параметра `LANGUAGE_CODE` файла `settings.py` вашего проекта.
+- WIDGET_BUTTON_LABEL: Текст кнопки выбора виджета.
+- WIDGET_WITH_TIME: Установите значение этого атрибута в `False`, если вам требуется только выбор даты без времени.
+- WIDGET_START_TITLE: Заголовок виджета при выборе начальной даты интервала.
+- WIDGET_START_TOP: Смещение по вертикали окна календаря виджета при выборе начальной даты интервала.
+- WIDGET_START_LEFT: Смещение по горизонтали окна календаря виджета при выборе начальной даты интервала.
+- WIDGET_END_TITLE: Заголовок виджета при выборе конечной даты интервала.
+- WIDGET_END_TOP: Смещение по вертикали окна календаря виджета при выборе конечной даты интервала.
+- WIDGET_END_LEFT: Смещение по горизонтали окна календаря виджета при выборе конечной даты интервала.
 
 ## Пример использования
 
@@ -287,9 +294,9 @@ class MyDateRangePicker(DateRangePicker):
 
 На платформе Windows для этого нужно предварительно установить следующие программы.
 
--   [Python3](https://www.python.org/downloads/release/python-3712/)
--   GNU [Unix Utils](http://unxutils.sourceforge.net/) для операций через makefile
--   [Git for Windows](https://git-scm.com/download/win) для доступа к репозитарию исходных кодов.
+- [Python3](https://www.python.org/downloads/release/python-3712/)
+- GNU [Unix Utils](http://unxutils.sourceforge.net/) для операций через makefile
+- [Git for Windows](https://git-scm.com/download/win) для доступа к репозитарию исходных кодов.
 
 Затем склонировать репозитарий и запустить установку, указав путь на Python 3.
 
