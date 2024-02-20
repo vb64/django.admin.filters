@@ -42,8 +42,6 @@ jobs:
         python -m pylint tests/test
 
     - name: pytest
-      env:
-        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
       run: |
         python manage.py collectstatic --noinput --settings example.settings
         python manage.py makemigrations --settings example.settings example
