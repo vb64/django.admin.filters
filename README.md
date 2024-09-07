@@ -335,3 +335,7 @@ make example
 
 Open `http://127.0.0.1:8000/admin/` in a browser to view the example site.
 To enter the admin panel you need to use the login and password that were set when creating the superuser.
+
+## Related projects
+
+- [django-admin-list-filter-dropdown](https://github.com/mrts/django-admin-list-filter-dropdown) `DropdownFilter` class that renders as a drop-down in the filtering sidebar for Django admin list views.
