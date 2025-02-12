@@ -1,0 +1,20 @@
++ Custom url parameters names.
+
+* Remove Python 3.7 support.
+
+20.02.2024 ver.1.2
+------------------
+
++ Django5 support
+
+11.10.2022 ver.1.1
+------------------
+
++ MultiChoice: multi choice selection with checkboxes for CharField and IntegerField fields with 'choices' option.
+
++ MultiChoiceExt: another version of previous filter, that allows filtering by custom defined properties.
+
+13.09.2022 ver.1.0
+------------------
+
++ Initial release.
