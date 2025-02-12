@@ -1,6 +1,8 @@
 + Custom url parameters names.
 
-* Remove Python 3.7 support.
+* Removed Python 3.7 support.
+
+* Added Python 3.13 support for Django5.
 
 20.02.2024 ver.1.2
 ------------------
