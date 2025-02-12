@@ -35,6 +35,7 @@ class Filter(BaseFilter):
     )
 
     template = 'daterange.html'
+    parameter_name_mask = 'range_'
     parameter_start_mask = "start_{}"
     parameter_end_mask = "end_{}"
     option_custom = 'custom'
