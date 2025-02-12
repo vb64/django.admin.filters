@@ -79,8 +79,8 @@ class TestsDaterange(TestBase):
 
         request = self.admin_get({
           self.pname: admin.DateRange.option_custom,
-          admin.DateRange.parameter_start_mask + self.field_path: '2022-01-01 00:00',
-          admin.DateRange.parameter_end_mask + self.field_path: '2022-01-02 00:00',
+          admin.DateRange.parameter_start_mask.format(self.field_path): '2022-01-01 00:00',
+          admin.DateRange.parameter_end_mask.format(self.field_path): '2022-01-02 00:00',
         })
 
         changelist = self.modeladmin.get_changelist_instance(request)
@@ -93,8 +93,8 @@ class TestsDaterange(TestBase):
         from example import admin
 
         request = self.admin_get({
-          admin.DateRange.parameter_start_mask + self.field_path: 'xxx',
-          admin.DateRange.parameter_end_mask + self.field_path: 'xxx',
+          admin.DateRange.parameter_start_mask.format(self.field_path): 'xxx',
+          admin.DateRange.parameter_end_mask.format(self.field_path): 'xxx',
           self.pname: admin.DateRange.option_custom,
         })
 
