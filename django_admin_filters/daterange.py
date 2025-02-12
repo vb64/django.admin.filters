@@ -35,18 +35,15 @@ class Filter(BaseFilter):
     )
 
     template = 'daterange.html'
-
-    parameter_name_mask = 'range_'
-    parameter_start_mask = 'start_'
-    parameter_end_mask = 'end_'
-
+    parameter_start_mask = "start_{}"
+    parameter_end_mask = "end_{}"
     option_custom = 'custom'
     option_null = 'empty'
 
     def __init__(self, field, request, params, model, model_admin, field_path):
         """Customize BaseFilter functionality."""
-        self.parameter_start = self.parameter_start_mask + field_path
-        self.parameter_end = self.parameter_end_mask + field_path
+        self.parameter_start = self.parameter_start_mask.format(field_path)
+        self.parameter_end = self.parameter_end_mask.format(field_path)
         super().__init__(field, request, params, model, model_admin, field_path)
 
         self.lookup_choices = list(self.lookups(request, model_admin))

@@ -35,6 +35,8 @@ class Timestamp1Filter(DateRange):
     """Field timestamp1 filter."""
 
     FILTER_LABEL = "By timestamp1"
+    parameter_start_mask = "{}_gte"
+    parameter_end_mask = "{}_lte"
 
 
 class Timestamp2Filter(DateRangePicker):
