@@ -233,12 +233,16 @@ class MyDateRange(DateRange):
 
 You can override the following attributes.
 
+- `FILTER_LABEL`: Title of the filter.
+- `BUTTON_LABEL`: Text on the apply filter button.
 - `FROM_LABEL`: The label of the start date field.
 - `TO_LABEL`: The label of the end date field.
 - `ALL_LABEL`: The label of the menu item for displaying all records.
 - `CUSTOM_LABEL`: The label of the menu item when date range is set.
 - `NULL_LABEL`: The label of the menu item for displaying records without date.
 - `is_null_option`: Set this attribute to `False` to remove the option to display record without date from the filter menu.
+- `parameter_start_mask`: Mask of the GET request parameter name for the start date of the date range.
+- `parameter_end_mask`: Mask of the GET request parameter name for the end date of the date range.
 - `DATE_FORMAT`: Hint about the format of the date and time fields.
 
 You can change the date/time input format to your own.
