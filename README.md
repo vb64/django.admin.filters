@@ -134,8 +134,8 @@ For example, in the `Log` model of the source data, there are three boolean fiel
 For this model, we define the `color` property as follows.
 
 - The `color` property has the value 'red' if the field `is_online == False`.
-- If `is_online == True` and both `is_trouble1` and `is_trouble1` fields are False, then the value of the property is 'green'.
-- If `is_online == True` and at least one of the fields `is_trouble1` and `is_trouble1` is True, then the property has the value 'yellow'.
+- If `is_online == True` and both `is_trouble1` and `is_trouble2` fields are False, then the value of the property is 'green'.
+- If `is_online == True` and at least one of the fields `is_trouble1` and `is_trouble2` is True, then the property has the value 'yellow'.
 
 ```python
 # models.py
